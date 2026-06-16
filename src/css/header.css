@@ -1,0 +1,218 @@
+/* Position controls in the top-left corner */
+#controls {
+    display: flex;
+    padding: 10px;
+    flex-direction: row;
+    position: absolute;
+    align-items: center;
+    background: rgba(10, 20, 26, 0.6);
+        /* semi-transparent background */
+        backdrop-filter: blur(10px);
+        /* ✅ adds the blur effect */
+        -webkit-backdrop-filter: blur(10px);
+        /* ✅ Safari support */
+    z-index: 1000;
+    width: 100%;
+    /* Set width of the control bar */
+}
+
+/* Text in the top-right corner of the control bar */
+.top-right-text {
+    display: flex;
+    align-items: center;
+    font-size: 50px;
+    color: white;
+    font-weight: bold;
+    margin-right: 62px;
+    gap: 20px;
+}
+
+.search-container-main {
+    display: flex;
+    align-items: center;
+    gap: 20%;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    margin-left: 30px;
+   
+    /* Ensures separation */
+
+}
+
+.search-container-sub {
+    display: flex;
+    height: 100%;
+    width: 380px;
+    justify-content: space-between;
+    gap: 18px;    
+}
+
+
+
+
+
+.search-group .plot{
+    width: 170px;
+    height: 100%;
+    padding-left: 18px;
+    border: 1px solid transparent;
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: white;
+}
+
+
+
+/* Keep the image inside the input */
+.search-group img {
+    display: flex;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+   
+    
+}
+
+.search-group input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px transparent !important;
+    /* keeps background white */
+    -webkit-text-fill-color: rgb(255, 255, 255) !important;
+    /* ensures text stays visible */
+    transition: background-color 9999s ease-in-out 0s;
+    /* avoids flash */
+}
+
+/* Keep consistent look when focused */
+.search-group input:focus {
+    background-color: transparent !important;
+    
+}
+
+
+.View-Btn{
+    display: flex;
+    width: 200px;
+    height: 100%;
+    font-size: 16px;
+}
+
+.View-Btn button{
+    display: flex;
+    font-size: 16px;
+}
+
+
+
+.btn-icon {
+    display: none;
+    /* hide icon by default */
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    /* makes dark icons white */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 600px) {
+
+    * {
+        box-sizing: border-box;
+    }
+
+    #map {
+        height: 100vh;
+        height: 100dvh;
+    }
+
+    #controls {
+        display: flex;
+        margin: 0;
+        padding: 14px 17px;
+    }
+
+    .search-container-main {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        gap: 20px;
+    }
+
+    .View-Btn {
+
+        display: flex;
+        align-items: center;
+    }
+
+
+    .header {
+        display: flex;
+        width: 2000px;
+        margin: 0;
+    }
+
+    #viewAllFishermen {
+        display: none;
+    }
+
+    .top-right-text {
+        display: none;
+    }
+
+    .btn-icon {
+        display: block;
+
+    }
+
+   
+
+         
+
+         
+    
+         
+
+                 
+
+   
+
+
+
+    
+
+
+
+
+
+
+    
+
+}
+
+
+
+    

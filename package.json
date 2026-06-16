@@ -1,0 +1,13 @@
+{
+  "name": "fisherlink-convex",
+  "private": true,
+  "scripts": {
+    "convex:dev": "convex dev",
+    "convex:deploy": "convex deploy",
+    "import:mysql-to-convex": "node scripts/mysqlToConvex.mjs"
+  },
+  "dependencies": {
+    "convex": "latest",
+    "mysql2": "^3.22.5"
+  }
+}

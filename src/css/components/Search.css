@@ -1,0 +1,40 @@
+.search-input {
+    display: flex;
+    align-items: center;
+    width: auto;
+    background: rgba(10, 20, 26, 0.6);
+    box-shadow:
+        inset 4px 4px 2px rgba(0, 0, 0, 0.8),
+        0 2px 0 #313c43;
+    padding: 5px 15px;
+    border-radius: 32px;
+}
+
+.search-input .search {
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    box-sizing: border-box;
+    background-color: transparent;
+    color: #ffffff;
+}
+
+/* Focus */
+.search-input .search:focus {
+    outline: none;
+    border: none;
+    background: transparent;
+    color: #fff;
+}
+
+/* Autofill fix (prevents white flash when selecting suggestion) */
+.search-input .search:-webkit-autofill,
+.search-input .search:-webkit-autofill:hover,
+.search-input .search:-webkit-autofill:focus,
+.search-input .search:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0px 1000px rgba(10, 20, 26, 0.6) inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #ffffff !important;
+    transition: background-color 9999s ease-in-out 0s;
+}

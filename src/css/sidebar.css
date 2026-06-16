@@ -1,0 +1,211 @@
+/* Sidebar styling */
+#sidebar {
+    position: absolute;
+    top: 93px;
+    right: -350px;
+    /* Sidebar starts off-screen */
+    width: 300px;  
+    /* 0.6 = 60% opacity */
+    color: white;
+    overflow-y: auto;
+    transition: right 0.3s ease;
+    z-index: 1500;
+    
+   
+    /* Above map */
+}
+
+#sidebar-container {
+    display: flex;
+    flex-direction: column;
+    /* stack elements vertically */
+    justify-content: flex-start;
+    /* start content from the top */
+    background-color: #0f1e27;
+    gap: 10px;
+    height: 600px;
+    padding: 18px;
+    padding-top: 30px;
+
+}
+
+.sidebar-group{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+}
+
+.button-sidebar button{
+    gap: 8px;
+}
+.sidebar{
+    height: 30px;
+    width: 50px;
+}
+
+
+
+
+#sidebar.open {
+    right: 0;
+    /* Sidebar comes into view */
+}
+
+
+
+#sidebar ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+#sidebar ul li {
+    padding: 8px;
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+}
+
+
+
+#senderList {
+    min-height: 260px;
+    max-height: 260px;
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    scrollbar-width: thin;
+    /* Optional: Makes scrollbar less intrusive */
+}
+
+.count-div {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+
+#sidebar ul li:hover {
+    background-color: #555;
+}
+
+
+
+/* Highlight sender name */
+.highlight {
+    font-weight: bold;
+    color: rgb(148, 248, 255);
+    /* Darker background */
+    padding: 0px;
+    border-radius: 5px;
+}
+
+.button-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.button-sidebar button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: transparent;
+    gap: 12px;
+    /* Adjust height */
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(255, 248, 248);
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.button-sidebar button:hover {
+    background: #0f1d26;
+        box-shadow:
+            inset 0 3px 6px rgba(0, 0, 0, 0.5),
+            0 2px 0 #313c43;
+}
+
+.line-sidebar {
+    display: flex;
+    height: 5px;
+    background: #0f1d26;
+        box-shadow:
+            inset 0 3px 6px rgba(0, 0, 0, 0.5),
+            0 2px 0 #313c43;
+    margin: 10px 0px; 
+    z-index: 1500;
+}
+
+
+
+
+
+.button-sidebar button img {
+    width: 24px;
+    /* adjust icon size */
+    height: 24px;
+}
+
+
+@media (max-width: 600px) {
+
+    * {
+        box-sizing: border-box;
+    }
+
+    #sidebar {
+        position: absolute;
+        top: 68px;
+        right: -350px;
+        /* Sidebar starts off-screen */
+        width: 300px;
+        /* 0.6 = 60% opacity */
+        color: white;
+        overflow-y: auto;
+        transition: right 0.3s ease;
+    
+
+
+        /* Above map */
+    }
+
+    #sidebar-container {
+        display: flex;
+        flex-direction: column;
+        /* stack elements vertically */
+        justify-content: flex-start;
+        /* start content from the top */
+        background-color: #0f1e27;
+        gap: 10px;
+        height: 750px;
+        padding: 18px;
+        padding-top: 30px;
+
+    }
+    
+    .button-sidebar{
+        gap: 20px;
+    }
+
+    #senderList {
+        min-height: 350px;
+        max-height: 350px;
+        overflow-y: auto;
+        /* Enable vertical scrolling */
+        scrollbar-width: thin;
+        /* Optional: Makes scrollbar less intrusive */
+    }
+
+    .sidebar {
+        height: 40px;     
+    }
+
+    
+
+
+}

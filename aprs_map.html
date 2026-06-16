@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APRS Map - Unique Senders</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+   
+
+
+
+
+
+    
+    <link rel="stylesheet" href="src/css/main.css">
+    <link rel="stylesheet" href="src/css/header.css">
+    <link rel="stylesheet" href="src/css/sidebar.css">
+    <link rel="stylesheet" href="src/css/Fisherman_History.css">
+    <link rel="stylesheet" href="src/css/SOS_Report.css">
+    <link rel="stylesheet" href="src/css/Fishermans_information.css">
+    <link rel="stylesheet" href="src/css/modal.css">
+    <link rel="stylesheet" href="src/css/table_design.css">
+    <link rel="stylesheet" href="src/css/components/Search.css">
+    <link rel="stylesheet" href="src/css/components/Buttons.css">
+    <link rel="stylesheet" href="src/css/Layout/layout.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+</head>
+
+<body>
+    <div id="controls">
+        <div class="search-container-main">
+            <!-- Callsign Search Pair -->
+            <div class="search-container-sub header">
+                <div class="search-input">
+                    <input type="text" id="searchSender" placeholder="Enter Callsign" class="search">
+                    <img src="public/assets/icons/search.png" alt="" id="searchIcon" width="15px" height="15px">
+                </div>
+
+                <!-- Coordinate Search Pair -->
+                <div class="search-input">  
+                    <input type="text" id="coordSearchInput" placeholder="Enter Coordinates" class="search">
+                    <img src="public/assets/markers/plot-black.png" alt="" id="coordSearchInput" width="15px" height="15px">
+                </div>     
+            </div>
+            <!-- Sidebar Button -->
+            <div class="button View-Btn">
+                <img src="public/assets/icons/sidebar.png" alt="View All" class="btn-icon" onclick="toggleSidebar()">
+                <button id="viewAllFishermen" onclick="toggleSidebar()" >View All Fishermen</button>
+            </div>
+        </div>
+
+        <!-- Add text 'APRS Map' to the top-right corner -->
+        <div class="top-right-text">
+            <img src="public/assets/logos/fisherlink.png" alt="logo" width="300" height="auto">
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+
+        <div id="sidebar-container">
+            <!--
+            <div class="close-btn" onclick="toggleSidebar()">
+                <img src="public/assets/icons/delete.png" alt="Close" width="24">
+            </div>-->
+            
+
+            <!-- Search bar -->
+            
+             <div class="sidebar-group">
+                <div class="count-div">
+                    Fishermen (<span id="fishermenCount">0</span>)
+                </div>
+                <div class="search-input sidebar">
+                    <input class="search" type="text" id="sidebarSearch" placeholder="Search Callsign..." onkeyup="filterSenders()">
+                    <img src="public/assets/icons/search.png" alt="" id="searchIcon" width="15px" height="15px">
+                </div>
+                
+                
+                <!-- List of Senders -->
+                
+                <ul id="senderList"></ul>      
+             </div>   
+            <div class="line-sidebar"></div>
+            
+
+
+            <!-- View All Button inside Sidebar -->
+            <div class="button-sidebar">
+                <button id="viewAllBtn" onclick="openSearchModal()">
+                    <img src="public/assets/icons/file-white.png" alt="Clock Icon"> View Fishermen History
+                </button>
+                <button id="safeReportBtn" onclick="openSafeReportModal(); fetchSafeReport();">
+                    <img src="public/assets/icons/sos.png" alt="Bullhorn Icon"> SOS Report
+                </button>
+                
+                <button id="detailsBtn" onclick="openInformationModal(); fetchInformation();">
+                    <img src="public/assets/icons/info.png" alt="File Icon"> Fishermen's Information
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+
+        <!-- Modal for Safe Report -->
+        <div id="safeReportModal" class="modal">
+            <div class="modal-content">
+                <div class="close-div">    
+                    <div class="title-modal">
+                        <div class="title">
+                            Monthly SOS Report
+                        </div>
+                        <img src="public/assets/logos/logo-2.png" alt="logo" width="70" height="auto" class="logo">
+                    </div>
+        
+                    <span class="close-modal" onclick="closeSafeReportModal()">
+                        <img src="public/assets/icons/delete.png" alt="Close" width="24">
+                    </span>
+                </div>
+                <div class="line"></div>
+
+                <!-- Add Month and Year Filters Here -->
+                <div class="div-box">
+
+                    <div class="div-box-sub">
+                        <div class="search-input">
+                            <input class="search" type="text" id="safeReportSearchInput" placeholder="Search Callsign..."
+                            onkeyup="filterSafeReportByCallsign()">
+                            <img src="public/assets/icons/search.png" alt="Filter Icon" width="15" height="15">
+                        </div>
+                    
+                        <div class="button ShowDetail-Btn">
+                            <button id="filterToggleBtn" onclick="toggleReportType()">
+                                Show by Details
+                                <img src="public/assets/icons/details.png" alt="Filter Icon" width="20" height="20">
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="div-box-sub div-box-sub-SOS">
+
+                        <div style="display: flex; justify-content: space-between; gap: 12px;">
+                            <label style="font-size: 500; color: #DCDCDC;">From:</label>
+                            <div class="filter-group">
+                                <select id="fromYearInput" class="yearInput"></select>
+                                <select id="fromMonthDropdown" class="dropdown">
+                                    <option value="">All Months</option>
+                                    <option>January</option>
+                                    <option>February</option>
+                                    <option>March</option>
+                                    <option>April</option>
+                                    <option>May</option>
+                                    <option>June</option>
+                                    <option>July</option>
+                                    <option>August</option>
+                                    <option>September</option>
+                                    <option>October</option>
+                                    <option>November</option>
+                                    <option>December</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; justify-content: space-between; gap: 12px;">
+                            <label style="font-size: 500; color: #DCDCDC;">To:</label>
+                            <div class="filter-group">
+                                <select id="toYearInput" class="yearInput"></select>
+                                <select id="toMonthDropdown" class="dropdown">
+                                    <option value="">All Months</option>
+                                    <option>January</option>
+                                    <option>February</option>
+                                    <option>March</option>
+                                    <option>April</option>
+                                    <option>May</option>
+                                    <option>June</option>
+                                    <option>July</option>
+                                    <option>August</option>
+                                    <option>September</option>
+                                    <option>October</option>
+                                    <option>November</option>
+                                    <option>December</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+
+                
+
+                 
+                         
+                        <!-- 🔍 Callsign Search --> 
+                        
+                    <!-- <div class="button ApplyFilter-Btn">
+                            <button onclick="applyMonthYearFilter()">
+                                Apply Filter
+                                <img src="public/assets/icons/filter.png" alt="Filter Icon" width="15" height="15">
+                            </button>
+                        </div>-->
+                  
+                
+                </div>
+
+                <!-- Scrollable Safe Report Table -->
+                <div class="scrollable-safe-report">
+                    <table class="styled-table">
+                        <thead id="safeReportHeader">
+                            <tr>
+                                <th id="column1">Month</th>
+                                <th>SOS Count ℹ️</th>
+                                <th>Mark as Safe Count ℹ️</th>
+                                <th>Not Found Count ℹ️</th>
+                            </tr>
+                        </thead>
+                        <tbody id="safeReportTable"></tbody>
+                    </table>
+                </div>
+
+                <div class="button print-Btn">
+                    <button id="printReportBtn" onclick="printSafeReport()">
+                        Print Report
+                        <img src="public/assets/icons/printer.png" alt="Filter Icon" width="25" height="25">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="senderDetailsModal" class="modal">
+            <div class="modal-content">
+                <div class="close-div">
+                    <div class="title-modal">
+                        Sender Message Details
+                        <img src="public/assets/logos/logo-2.png" alt="logo" width="70" height="auto">
+                    </div>
+                    <span class="close-modal" onclick="closeSenderDetailsModal()">
+                        <img src="public/assets/icons/delete.png" alt="Close" width="24">
+                    </span>
+                </div>
+                <div class="line"></div>
+
+                <!-- ✅ Sender and Month Info - Fixed -->
+                <!-- ✅ Sender and Month Info - Fixed and Styled -->
+                <div id="senderDetailsContent" class="sender-info">
+                    <p><strong>Sender:</strong> <span id="senderName"></span></p>
+                    <div class="line2"></div>
+                    <p><strong>Month:</strong> <span id="selectedMonth"></span></p>
+                    <div class="line2"></div>
+                    <p><strong>Messages: (<span id="messageCount">0</span>)</strong></p>
+                </div>
+
+                <!-- ✅ Filter Section for Sender Details -->
+                <div class="div-box">
+                    <div class="div-box-sub">
+                        <div class="search-input">
+                            <input class="search" type="text" id="filterMessage" placeholder="Filter by Message" >
+                            <img src="public/assets/icons/search.png" alt="Filter Icon" width="15" height="15">
+                        </div>
+                        
+                        <!--<div class="button Message-Details-Filter">
+                            <button onclick="applySenderFilter()">
+                                Apply Filter
+                                <img src="public/assets/icons/filter.png" alt="Filter Icon" width="15" height="15">
+                            </button>
+                        </div>-->
+
+                        <div class="button clear">
+                            <button onclick="clearSenderFilter()">
+                                Clear Filter
+                                <img src="public/assets/icons/eraser.png" alt="Filter Icon" width="25" height="25">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="filter-div">
+                        <label style="font-size: 500; color: #DCDCDC;">From:</label>
+                        <div class="filter-group">
+                            
+                            <input type="date" id="filterFromDate">
+                            <label for="filterFromTime" class="input-label"></label>
+                            <input type="time" id="filterFromTime">
+                        </div>
+                    
+                        
+                        <label style="font-size: 500; color: #DCDCDC;">To:</label>
+                        <div class="filter-group">
+                            
+                            <input type="date" id="filterToDate">
+                            <label for="filterToTime" class="input-label"></label>
+                            <input type="time" id="filterToTime">
+                        </div>
+                    
+                        
+                    </div>
+
+                </div>
+
+
+
+                <!-- ✅ Scrollable Table Wrapper -->
+                <div id="tableWrapper">
+                    <table class="styled-table">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody id="senderDetailsTable"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- Modernized Modal -->
+    <div id="searchModal" class="modal fishermen-modal">
+        <div class="modal-content">
+
+            <div class="close-div">
+                <div class="title-modal">
+                    <div class="title">
+                        Fishermen History
+                    </div>
+                    <img src="public/assets/logos/logo-2.png" alt="logo" width="70" height="auto" class="logo">
+                </div>
+
+                
+
+                <span class="close-modal" onclick="closeSearchModal()">
+                    <img src="public/assets/icons/delete.png" alt="Close" width="24">
+                </span>
+            </div>
+            <div class="line"></div>
+
+            
+            <!-- Search Bar & Date Filters (With Labels Above) -->
+            <div class="div-box">
+                <!-- Search Box -->
+                <div class="div-box-sub">
+                    <div class="search-input">
+                        <input class="search" type="text" id="modalSearchInput" placeholder="Enter Sender ID..." >
+                        <img src="public/assets/icons/search.png" alt="Filter Icon" width="15" height="15">
+                    </div>
+                    <div class="button Plot-Btn">
+                        <button id="plotButton" onclick="plotFilteredTrail()">
+                            Plot
+                            <img src="public/assets/markers/plot-black.png" alt="Filter Icon" width="15" height="15">
+                        </button>
+                    </div>
+                    <div class="button Clear-Btn">
+                        <button id="clearPlotButton" onclick="clearPlot()">
+                            Clear
+                            <img src="public/assets/icons/eraser.png" alt="Filter Icon" width="25" height="25">
+                        </button>  
+                    </div>
+                </div>
+
+                <!-- Date & Time Filters -->
+                <div class="filter-div">
+                    <div style="display:flex; flex-direction: row; align-items: center; gap: 5px; justify-content: space-between; width: 100%;">
+                        <label for="startDate" class="input-label" style="font-size: 500; color: #DCDCDC;">From:</label>
+                        <div class="filter-group">
+                        
+                            <input type="date" id="startDate">
+                            <label for="startTime" class="input-label"></label>
+                            <input type="time" id="startTime">
+                        </div>
+                    </div>
+
+                    <div style="display:flex; flex-direction: row; align-items: center; gap: 5px; justify-content: space-between; width: 100%;">
+                        <label style="font-size: 500; color: #DCDCDC;">To:</label>
+                        <div class="filter-group">
+                        
+                            <input type="date" id="endDate">
+                            <label for="endTime" class="input-label"></label>
+                            <input type="time" id="endTime">
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+
+
+            <!-- Table for History (Default View) -->
+            <div id="searchResultsWrapper">
+                <div id="searchResults"></div>
+            </div>
+
+            <!-- Hidden Map for Plotting Trail -->
+            <div id="historyMap" style="height: 420px; width: 100%; display: none; border-radius: 8px; margin-top: 15px;"></div>
+        </div>
+    </div>
+
+
+
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+
+            <div class="close-div">
+                <div class="title-modal">
+                    <div class="title">
+                        Information Details
+                    </div>
+                    <img src="public/assets/logos/logo-2.png" alt="logo" width="70" height="auto" class="logo">
+                </div>
+                <span class="close-modal" onclick="closeDetailsModal()">
+                    <img src="public/assets/icons/delete.png" alt="Close" width="24">
+                </span>
+            </div>
+            <div class="line"></div>
+
+            <div class="count-div2">
+                Fishermen Count: (<span id="infoFishermenCount">0</span>)
+            </div>
+            <!-- Search and Filter Section -->
+            <div class="div-box-sub">
+                <div class="search-input">
+                    <input type="text" id="detailsSearchInput" class="search" placeholder="Search name or callsign..."
+                        onkeyup="filterDetails()">
+                    <img src="public/assets/icons/search.png" alt="Filter Icon" width="15" height="15">
+                </div>
+                
+                <div class="filter-group">
+                    <select id="addressFilter" onchange="filterDetails()" class="Adr">
+                        <option value="">All Addresses</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="scrollable-details-table">
+                <table class="styled-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Callsign</th>
+                            <th>Address</th>
+                            <th>Phone Number</th>
+                            <th>Boat Color</th>
+                            <th>Engine Type</th>
+                            <th>Boat Length</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detailsTable"></tbody>
+                </table>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+    <script src="src/js/DisplaySenderHistory.js"></script>
+    <script src="src/js/DelayWarning.js"></script>
+    <script src="src/js/config.js"></script>
+    <script src="https://unpkg.com/convex@latest/dist/browser.bundle.js"></script>
+    <script src="src/js/convexAdapter.js"></script>
+    <script src="src/js/main.js"></script>
+</body>
+
+</html>

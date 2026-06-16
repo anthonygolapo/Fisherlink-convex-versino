@@ -1,0 +1,63 @@
+.button button {
+    display: flex;
+    padding: 8px 12px;
+    width: 100%;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 20, 26, 0.6);
+    /* lighter version of #142733 */
+    transform: scale(1.01);
+    /* ✅ makes it grow slightly */
+    box-shadow:
+            4px 4px 1px rgba(0, 0, 0, 0.8),
+            0 2px 2px #313c43;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+   
+}
+
+
+.button button:active {
+    transform: translateY(2px);
+    background: rgba(10, 20, 26, 0.6);
+        box-shadow:
+            inset 4px 4px 2px rgba(0, 0, 0, 0.8),
+            /* darker inner shadow */
+            0 2px 0 #313c43;
+        /* subtle highlight */
+    
+}
+
+
+
+@media (max-width: 600px) {
+
+
+.button button {
+        display: flex;
+        padding: 8px 12px;
+        height: 100%;
+        width: 100%;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        background: rgba(10, 20, 26, 0.6);
+        /* lighter version of #142733 */
+        transform: scale(1.01);
+        /* ✅ makes it grow slightly */
+        box-shadow:
+            4px 4px 1px rgba(0, 0, 0, 0.8),
+            0 2px 2px #313c43;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+
+
+
+}

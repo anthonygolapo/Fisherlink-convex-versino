@@ -1,0 +1,90 @@
+
+#addressFilter {
+    font-size: 13px;
+    padding: 5px 12px;
+    background: transparent;
+    border: none;
+    color: rgb(164, 164, 164);
+    overflow-y: auto;
+}
+
+
+
+#addressFilter option{
+    color: rgb(0, 0, 0);
+}
+
+
+
+
+
+
+.count-div2 {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #DCDCDC;
+}
+
+#infoFishermenCount{
+    color: rgb(148, 248, 255);
+}
+
+/* ✅ Style for Date and Message Input */
+
+
+
+
+.info {
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px 0px;
+}
+
+
+
+/* Limit the visible height and allow scroll */
+.scrollable-details-table {
+    display: flex;
+    max-height: 360px;
+    /* adjust this height as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+    /* optional, in case the table is wide */
+    margin-top: 25px;
+}
+
+.div-box{
+    display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 15px;
+    
+}
+
+
+
+
+
+
+@media (max-width: 600px) {
+
+.Address{
+    display: flex;
+    align-items: center;
+    height: 100px;
+}
+
+.count-div2 {
+    display: flex;
+    font-size: 18px;
+    font-weight: 600;
+  
+}
+
+
+
+}

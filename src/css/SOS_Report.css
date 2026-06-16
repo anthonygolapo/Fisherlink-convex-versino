@@ -1,0 +1,232 @@
+
+
+.print-Btn{
+    margin-top: 20px;
+}
+
+#safeReportTable {
+    max-height: 400px;
+    min-height: 400px;
+}
+.clickable-callsign {
+    /* Blue background */
+    color: rgb(148, 248, 255);
+    /* Remove default border */
+    text-decoration: underline;
+    /* Rounded corners */
+    padding: 6px 12px;
+    /* Inner spacing */
+    cursor: pointer;
+    /* Hand pointer on hover */
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Hover effect */
+.clickable-callsign:hover {
+    color: rgb(255, 255, 255);
+    /* Darker blue */
+}
+
+/* 🧠 Limit dropdown height & make it scrollable */
+
+
+
+
+
+
+.dropdown {
+    width: 120px;
+        font-size: 15px;
+        padding: 5px 12px;
+        background: transparent;
+        border: none;
+        color: rgb(164, 164, 164);
+        max-height: 150px;
+        overflow-y: auto;
+    
+}
+
+
+/* Style Options */
+.dropdown option {
+    padding: 5px 8px;
+    background-color: #fff;
+    color: #333;
+    min-height: 50px;
+    overflow-y: auto;
+    
+}
+
+
+/* 📅 Compact Style for Year Input */
+.yearInput {
+    width: 110px;
+    font-size: 15px;
+    padding: 5px 12px;
+    background: transparent;
+    border: none;
+        color: rgb(164, 164, 164);
+        max-height: 150px;
+        overflow-y: auto;           
+}
+
+.yearInput option {
+    padding: 5px 8px;
+    background-color: #fff;
+    color: #333;
+    min-height: 150px;
+        overflow-y: auto;
+}
+
+
+
+.scrollable-safe-report {
+    max-height: 350px;
+    /* fixed height for scroll */
+    overflow-y: auto;
+    /* enables vertical scrolling */
+    
+    /* optional for clarity */
+    margin-top: 20px;
+}
+
+
+
+.ShowDetail-Btn{
+    display: flex;
+    width: 160px;
+}
+
+
+
+
+
+#noResultsRow td {
+    text-align: center;
+    font-weight: bold;
+    color: black;
+    background-color: #fff5f5;
+    padding: 10px;
+}
+
+.search-filter-container{
+    display: flex;
+    margin-top: 30px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+
+
+
+
+.filter-SMD-group{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: white;
+    gap: 5px;
+    font-weight: 500;
+}
+
+
+
+/* ✅ Style for Date and Message Input */
+
+
+
+
+
+
+
+
+
+.sender-info{
+    display: flex;
+    align-items: center;
+    width: 43%;
+    justify-content: space-between;
+}
+
+.line2 {
+    display: flex;
+    width: 2px;
+    height: 20px;
+    background: #ffffff;
+}
+/* ✅ Style for the span showing values (like NOCALL-5, March-2025) */
+.sender-info span {
+    font-weight: bold;
+    color: rgb(148, 248, 255);
+    /* Blue to highlight the info */
+}
+
+/* ✅ Style for labels like 'Sender' and 'Month' */
+.sender-info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+
+/* ✅ Style for Sender and Month section */
+.sender-info {
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+/* ✅ Wrapper to make the table scrollable */
+#tableWrapper {
+    max-height: 50vh;
+    /* Limit table height */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: auto;
+    /* Enable horizontal scrolling if needed */
+    margin-top: 20px;
+}
+
+#senderDetailsContent {
+    max-height: 400px;
+    /* Limit height for scroll */
+    overflow-y: auto;
+    /* Enable vertical scrolling */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    /* Optional: Add a border for clarity */
+    margin-top: 10px;
+}
+
+@media (max-width: 600px) {
+
+    
+.scrollable-safe-report {
+        max-height: 350px;
+        /* fixed height for scroll */
+        overflow-y: auto;
+        /* enables vertical scrolling */
+
+        /* optional for clarity */
+        margin-top: 130px;
+    }
+
+.div-box-sub-SOS{
+    display: flex;
+    flex-direction: column;
+}
+
+.yearInput {
+    width: 145px;
+   
+}
+
+.dropdown {
+    width: 145px;
+}
+
+
+    
+}
+

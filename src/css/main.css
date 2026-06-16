@@ -1,0 +1,148 @@
+html,
+body {
+    height: 100%;
+    /* Full height */
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    /* Disable scrollbars */
+    font-family: sans-serif;
+}
+
+#map {
+    height: 100vh;
+    /* Full viewport height */
+    width: 100vw;
+    /* Full viewport width */
+    overflow: hidden;
+    /* Disable scrolling inside the map */
+}
+
+
+.station-popup p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+
+.popup-btn {
+    margin-top: 10px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.help-btn {
+    background: #d39e00;
+    color: white;
+}
+
+.safe-btn {
+    background: #009688;
+    color: white;
+}
+
+.popup-btn:hover {
+    opacity: 0.8;
+}
+
+
+
+
+
+ /* Adjust Leaflet layers control position to bottom-left */
+ .leaflet-control-layers {
+     bottom: 2px !important;
+     /* Adjust space above zoom buttons */
+     left: 2px !important;
+     top: auto !important;
+     right: auto !important;
+ }
+
+
+
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+
+
+/* Style for the color box */
+.color-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+}
+
+.leaflet-bottom.leaflet-left .leaflet-boat-legend {
+    margin-bottom: 10px;
+    /* Move up */
+    margin-left: 14px;
+    /* Move right */
+}
+/* Main container mimics Leaflet’s control style */
+.leaflet-boat-legend {
+    background: rgba(21, 19, 19, 0.9);
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(63, 61, 61, 0.4);
+    overflow: hidden;
+    color: #ccc;
+}
+
+/* Toggle button (the small round button) */
+.leaflet-boat-legend-toggle {
+    display: block;
+    width: 42px;
+    height: 44px;
+    background-color: white;
+    background-image: url('../../public/assets/images/legend.png');
+    /* ⚓ small boat icon */
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 6px;
+    border: 2px solid #ccc;
+    cursor: pointer;
+}
+
+/* Legend content box (hidden by default) */
+.leaflet-boat-legend-content {
+    padding: 8px 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    display: none;
+}
+
+.leaflet-boat-legend-content h4 {
+    margin: 0 0 6px 0;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+}

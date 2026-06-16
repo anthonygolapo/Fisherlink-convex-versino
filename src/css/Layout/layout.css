@@ -1,0 +1,108 @@
+.filter-div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.filter-group input{
+   
+    padding: 6px 10px;
+        font-size: 14px;
+
+        background: transparent;
+        /* subtle translucent background */
+        border: none;
+        
+    color: #9d9c9c;
+    
+}
+
+/* Adjust filter input sizes */
+.filter-group{
+    padding: 6px 15px;
+    font-size: 14px;
+    border-radius: 12px;
+    background: rgba(10, 20, 26, 0.6);
+    /* subtle translucent background */
+    border: none;
+    color: #ffffff;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    /* 🌌 INSET effect for pressed-in look */
+    box-shadow:
+            inset 4px 4px 2px rgba(0, 0, 0, 0.8),
+            /* darker inner shadow */
+            0 2px 0 #313c43;
+    /* inner light edge */
+
+    transition: all 0.2s ease;
+}
+
+
+
+/* 🎨 Make the calendar icon white */
+
+.filter-group input[type="date"]::-webkit-calendar-picker-indicator,
+.filter-group input[type="time"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.9;
+    cursor: pointer;
+}
+
+
+/* 🗂️ Filter Container Style */
+.div-box {
+    display: flex;
+    margin-top: 25px;
+    justify-content: space-between;
+    height: 45px;
+    
+}
+
+.div-box-sub {
+    display: flex;
+    gap: 18px;
+}
+
+.group {
+    display: flex;
+    gap: 8px;
+}
+
+.div-box-sub label {
+    display: flex;
+    color: white;
+    align-items: center;
+}
+
+
+
+
+
+@media (max-width: 600px) {
+
+    .div-box {
+            display: flex;
+            flex-direction: column;
+            margin-top: 2px;
+            justify-content: space-between;
+            height: 45px;
+        }
+
+    .filter-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .div-box-sub {
+        display: flex;
+        gap: 18px;
+        height: 40px;
+
+    }
+}

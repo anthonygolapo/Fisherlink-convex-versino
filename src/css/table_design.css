@@ -1,0 +1,54 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+  
+}
+
+
+/* ✅ Optional: Style for even/odd rows */
+.styled-table tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.1);
+        /* light gray, transparent */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        /* Safari support */
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        /* Light grey for alternate rows */
+        color: #DCDCDC;
+    /* Light grey for alternate rows */
+}
+
+.styled-table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.1);
+        /* light gray, transparent */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        /* Safari support */
+        border: 1px solid rgba(0, 0, 0, 0.2);
+    /* Light grey for alternate rows */
+    color: #DCDCDC;
+}
+
+/* ✅ Center-align and make text black for table rows */
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    text-align: center;
+}
+
+/* ✅ Style to make table header sticky */
+.styled-table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #134579;
+    /* Blue header background */
+    color: #DCDCDC;
+    /* Header text color */
+    z-index: 1;
+    /* Ensure it stays on top */
+    padding: 10px;
+   font-size: 14px;
+    /* Optional border for header */
+    text-align: center;
+    /* ✅ Center text in header */
+}
