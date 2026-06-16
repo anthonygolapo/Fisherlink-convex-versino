@@ -1,3 +1,3 @@
 const CONFIG = {
-  CONVEX_URL: "https://giant-poodle-212.convex.cloud"
+  CONVEX_URL: "https://aromatic-pika-793.convex.cloud"
 };
