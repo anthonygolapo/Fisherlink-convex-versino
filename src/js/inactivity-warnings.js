@@ -22,7 +22,19 @@ function showDelayWarning(sender, minutes) {
     alertDiv.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
     alertDiv.style.maxWidth = "280px";
     alertDiv.style.fontWeight = "600";
+    alertDiv.style.fontSize = "14px";
+    alertDiv.style.lineHeight = "1.4";
     alertDiv.style.transition = "top 0.2s ease";
+
+    if (window.innerWidth <= 600) {
+        alertDiv.style.left = "12px";
+        alertDiv.style.right = "12px";
+        alertDiv.style.maxWidth = "none";
+        alertDiv.style.padding = "8px 12px";
+        alertDiv.style.fontSize = "12px";
+        alertDiv.style.lineHeight = "1.35";
+        alertDiv.style.borderRadius = "10px";
+    }
 
     document.body.appendChild(alertDiv);
     adjustPopupPositions();
@@ -39,7 +51,11 @@ function removeDelayWarning(sender) {
 
 function adjustPopupPositions() {
     const remainingAlerts = document.querySelectorAll("[id^='delay-alert-']");
+    const isPhone = window.innerWidth <= 600;
+    const startTop = isPhone ? 72 : 90;
+    const step = isPhone ? 54 : 64;
+
     remainingAlerts.forEach((alertDiv, index) => {
-        alertDiv.style.top = `${index * 64 + 90}px`;
+        alertDiv.style.top = `${index * step + startTop}px`;
     });
 }
