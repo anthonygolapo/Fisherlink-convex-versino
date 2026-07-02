@@ -1,6 +1,11 @@
 import { query, mutation } from "./_generated/server";
 import { v } from "convex/values";
-import { getNowTimestamp, mapInfoByCallsign, toStation } from "./lib";
+import {
+  getNowTimestamp,
+  mapInfoByCallsign,
+  toStation,
+  upsertLatestStation
+} from "./lib";
 
 async function latestPacketForSender(ctx, sender) {
   return await ctx.db
@@ -17,26 +22,36 @@ async function infoForSender(ctx, sender) {
     .unique();
 }
 
+async function buildLatestPacketsFromHistory(ctx) {
+  const packets = await ctx.db.query("aprs_packets").collect();
+  const latestBySender = new Map();
+
+  for (const packet of packets) {
+    const existing = latestBySender.get(packet.sender);
+    if (!existing || packet.time_received > existing.time_received) {
+      latestBySender.set(packet.sender, packet);
+    }
+  }
+
+  return [...latestBySender.values()];
+}
+
+async function latestPacketsForMap(ctx) {
+  const latestPackets = await ctx.db.query("latest_stations").collect();
+  if (latestPackets.length > 0) {
+    return latestPackets;
+  }
+  return await buildLatestPacketsFromHistory(ctx);
+}
+
 export const getLatest = query({
   args: {},
   handler: async (ctx) => {
-    const cutoff = getNowTimestamp() - 24 * 60 * 60 * 1000;
-    const packets = await ctx.db
-      .query("aprs_packets")
-      .withIndex("by_time_received", (q) => q.gte("time_received", cutoff))
-      .collect();
+    const latestPacketsSource = await latestPacketsForMap(ctx);
     const informationRows = await ctx.db.query("information").collect();
     const infoByCallsign = mapInfoByCallsign(informationRows);
-
-    const latestBySender = new Map();
-    for (const packet of packets) {
-      const existing = latestBySender.get(packet.sender);
-      if (!existing || packet.time_received > existing.time_received) {
-        latestBySender.set(packet.sender, packet);
-      }
-    }
-
-    const latestPackets = [...latestBySender.values()]
+    const latestPackets = latestPacketsSource
+      .filter((packet) => infoByCallsign.has(packet.sender))
       .sort((a, b) => b.time_received - a.time_received)
       .slice(0, 100);
 
@@ -48,7 +63,7 @@ export const getLatest = query({
     return {
       type: "update",
       stations,
-      count: latestBySender.size
+      count: latestPackets.length
     };
   }
 });
@@ -56,18 +71,42 @@ export const getLatest = query({
 export const getUpdateStamp = query({
   args: {},
   handler: async (ctx) => {
-    const packets = await ctx.db.query("aprs_packets").collect();
+    const [latestPackets, informationRows] = await Promise.all([
+      latestPacketsForMap(ctx),
+      ctx.db.query("information").collect()
+    ]);
     let latestTimeReceived = 0;
 
-    for (const packet of packets) {
+    for (const packet of latestPackets) {
       if (packet.time_received > latestTimeReceived) {
         latestTimeReceived = packet.time_received;
       }
     }
 
+    const informationSignature = informationRows
+      .map((row) =>
+        [
+          row._id,
+          row.callsign,
+          row.name,
+          row.address,
+          row.phone_number || "",
+          row.boat_color || "",
+          row.engine_type || "",
+          row.boat_length ?? "",
+          row.sos_status ?? 0,
+          row.help_status ?? 0,
+          row.not_found_status ?? 0
+        ].join("|")
+      )
+      .sort()
+      .join("||");
+
     return {
-      packetCount: packets.length,
-      latestTimeReceived
+      packetCount: latestPackets.length,
+      latestTimeReceived,
+      informationCount: informationRows.length,
+      informationSignature
     };
   }
 });
@@ -119,7 +158,7 @@ export const markSafe = mutation({
       throw new Error(`No packet found for sender '${args.sender}'.`);
     }
 
-    await ctx.db.insert("aprs_packets", {
+    const latestPacketSnapshot = {
       sender: latestPacket.sender,
       latitude: latestPacket.latitude,
       longitude: latestPacket.longitude,
@@ -130,7 +169,11 @@ export const markSafe = mutation({
         latestPacket.battery_percentage === undefined
           ? undefined
           : latestPacket.battery_percentage
-    });
+    };
+
+    await ctx.db.insert("aprs_packets", latestPacketSnapshot);
+
+    await upsertLatestStation(ctx, latestPacketSnapshot);
 
     await ctx.db.patch(info._id, {
       sos_status: 0,
@@ -155,7 +198,7 @@ export const markHelpOnWay = mutation({
       throw new Error(`No packet found for sender '${args.sender}'.`);
     }
 
-    await ctx.db.insert("aprs_packets", {
+    const latestPacketSnapshot = {
       sender: latestPacket.sender,
       latitude: latestPacket.latitude,
       longitude: latestPacket.longitude,
@@ -166,7 +209,11 @@ export const markHelpOnWay = mutation({
         latestPacket.battery_percentage === undefined
           ? undefined
           : latestPacket.battery_percentage
-    });
+    };
+
+    await ctx.db.insert("aprs_packets", latestPacketSnapshot);
+
+    await upsertLatestStation(ctx, latestPacketSnapshot);
 
     await ctx.db.patch(info._id, {
       sos_status: 0,
@@ -193,6 +240,19 @@ export const markNotFound = mutation({
 
     await ctx.db.patch(latestPacket._id, {
       message: "Not Found"
+    });
+
+    await upsertLatestStation(ctx, {
+      sender: latestPacket.sender,
+      latitude: latestPacket.latitude,
+      longitude: latestPacket.longitude,
+      time_received: latestPacket.time_received,
+      message: "Not Found",
+      place: latestPacket.place || "",
+      battery_percentage:
+        latestPacket.battery_percentage === undefined
+          ? undefined
+          : latestPacket.battery_percentage
     });
 
     await ctx.db.patch(info._id, {

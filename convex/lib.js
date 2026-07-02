@@ -131,6 +131,37 @@ export function mapInfoByCallsign(informationRows) {
   return new Map(informationRows.map((row) => [row.callsign, row]));
 }
 
+export async function upsertLatestStation(ctx, packet) {
+  const existing = await ctx.db
+    .query("latest_stations")
+    .withIndex("by_sender", (q) => q.eq("sender", packet.sender))
+    .unique();
+
+  const latestStationPatch = {
+    sender: packet.sender,
+    latitude: packet.latitude,
+    longitude: packet.longitude,
+    time_received: packet.time_received,
+    message: packet.message || undefined,
+    place: packet.place || undefined,
+    battery_percentage:
+      packet.battery_percentage === null || packet.battery_percentage === undefined
+        ? undefined
+        : packet.battery_percentage
+  };
+
+  if (!existing) {
+    await ctx.db.insert("latest_stations", latestStationPatch);
+    return;
+  }
+
+  if (packet.time_received < existing.time_received) {
+    return;
+  }
+
+  await ctx.db.patch(existing._id, latestStationPatch);
+}
+
 export function toStation(packet, info, nowTimestamp) {
   const timeGapMinutes = (nowTimestamp - packet.time_received) / 60000;
   const statusPatch = statusPatchForMessage(packet.message, info || {});
@@ -150,6 +181,7 @@ export function toStation(packet, info, nowTimestamp) {
     boat_color: info?.boat_color || null,
     engine_type: info?.engine_type || null,
     boat_length: info?.boat_length || null,
+    last_packet_time: packet.time_received,
     sos_status: statusPatch.sos_status,
     help_status: statusPatch.help_status,
     not_found_status: statusPatch.not_found_status,

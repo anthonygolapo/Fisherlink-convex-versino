@@ -18,10 +18,10 @@ This repo was reorganized for local cleanup only. App behavior, backend logic, d
   Legacy Python backend files and runtime config kept for reference.
 - `docs/`
   Local project documentation.
-- `requirements.txt`
-  Root Python dependencies kept unchanged.
-- `Procfile`
-  Root process file kept unchanged.
+- `requirements.legacy.txt`
+  Legacy Python backend dependencies kept for reference.
+- `Procfile.legacy`
+  Legacy Python process file kept for reference.
 - `_redirects`
   Existing redirect config kept unchanged.
 
@@ -38,6 +38,8 @@ This repo was reorganized for local cleanup only. App behavior, backend logic, d
 
 ## Notes
 
-- `backend/websocket_server.py` remains in `backend/` as a legacy copy.
+- `backend/legacy_websocket_server.py` remains in `backend/` as a legacy copy.
+- `backend/Procfile.legacy` and `backend/requirements.legacy.txt` are legacy runtime files for the old Python backend.
 - No root-level `websocket_server.py` was present during cleanup, so no legacy copy was created.
-- The active frontend data path now points at Convex through `src/js/convexAdapter.js`.
+- The active frontend data path now points at Convex through `src/js/convex-api-bridge.js`.
+- The active backend now lives under `convex/`, especially `convex/stations.js`, `convex/history.js`, `convex/information.js`, `convex/reports.js`, and `convex/importer.js`.

@@ -1,5 +1,6 @@
 import { mutation } from "./_generated/server";
 import { v } from "convex/values";
+import { upsertLatestStation } from "./lib";
 
 function hoursAgo(hours) {
   return Date.now() - hours * 60 * 60 * 1000;
@@ -98,6 +99,9 @@ export const populateSampleData = mutation({
       for (const row of await ctx.db.query("aprs_packets").collect()) {
         await ctx.db.delete(row._id);
       }
+      for (const row of await ctx.db.query("latest_stations").collect()) {
+        await ctx.db.delete(row._id);
+      }
     }
 
     for (const row of sampleInformation) {
@@ -106,6 +110,7 @@ export const populateSampleData = mutation({
 
     for (const row of samplePackets) {
       await ctx.db.insert("aprs_packets", row);
+      await upsertLatestStation(ctx, row);
     }
 
     return {
@@ -118,7 +123,7 @@ export const populateSampleData = mutation({
 export const insertLivePacket = mutation({
   args: {},
   handler: async (ctx) => {
-    await ctx.db.insert("aprs_packets", {
+    const packet = {
       sender: "FISH002",
       latitude: 9.145,
       longitude: 125.545,
@@ -126,7 +131,10 @@ export const insertLivePacket = mutation({
       message: "Live update test",
       place: "Cabadbaran",
       battery_percentage: 59
-    });
+    };
+
+    await ctx.db.insert("aprs_packets", packet);
+    await upsertLatestStation(ctx, packet);
 
     return { ok: true };
   }
@@ -135,7 +143,7 @@ export const insertLivePacket = mutation({
 export const insertLatestFISH001 = mutation({
   args: {},
   handler: async (ctx) => {
-    await ctx.db.insert("aprs_packets", {
+    const packet = {
       sender: "FISH001",
       latitude: 8.981,
       longitude: 125.312,
@@ -143,7 +151,10 @@ export const insertLatestFISH001 = mutation({
       message: "Latest live packet for FISH001",
       place: "Nasipit",
       battery_percentage: 83
-    });
+    };
+
+    await ctx.db.insert("aprs_packets", packet);
+    await upsertLatestStation(ctx, packet);
 
     return { ok: true };
   }

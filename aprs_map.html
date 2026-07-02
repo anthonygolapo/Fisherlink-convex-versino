@@ -28,6 +28,27 @@
 </head>
 
 <body>
+    <div id="authModal" class="auth-modal">
+        <div class="auth-modal-content">
+            <img src="public/assets/logos/fisherlink.png" alt="FisherLink" class="auth-logo">
+            <h2>FisherLink Access</h2>
+            <p class="auth-subtitle">Sign in as admin or user to continue.</p>
+            <div class="auth-field">
+                <label for="roleSelect">Role</label>
+                <select id="roleSelect">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="auth-field">
+                <label for="rolePassword">Password</label>
+                <input type="password" id="rolePassword" placeholder="Enter password">
+            </div>
+            <button id="loginBtn" class="auth-login-btn" onclick="loginWithRole()">Login</button>
+            <p id="authError" class="auth-error"></p>
+        </div>
+    </div>
+
     <div id="controls">
         <div class="search-container-main">
             <!-- Callsign Search Pair -->
@@ -71,8 +92,13 @@
             <!-- Search bar -->
             
              <div class="sidebar-group">
-                <div class="count-div">
-                    Fishermen (<span id="fishermenCount">0</span>)
+                <div class="sidebar-summary-row">
+                    <div class="count-div">
+                        Fishermen (<span id="fishermenCount">0</span>)
+                    </div>
+                    <div id="roleStatus" class="sidebar-role-status" style="display: none;">
+                        <span id="roleBadge" class="sidebar-role-badge"></span>
+                    </div>
                 </div>
                 <div class="search-input sidebar">
                     <input class="search" type="text" id="sidebarSearch" placeholder="Search Callsign..." onkeyup="filterSenders()">
@@ -99,6 +125,9 @@
                 
                 <button id="detailsBtn" onclick="openInformationModal(); fetchInformation();">
                     <img src="public/assets/icons/info.png" alt="File Icon"> Fishermen's Information
+                </button>
+                <button id="sidebarLogoutBtn" class="sidebar-logout-btn" onclick="logoutRole()" style="display: none;">
+                    <img src="public/assets/icons/delete.png" alt="Logout Icon"> Log Out
                 </button>
 
             </div>
@@ -423,7 +452,7 @@
                 Fishermen Count: (<span id="infoFishermenCount">0</span>)
             </div>
             <!-- Search and Filter Section -->
-            <div class="div-box-sub">
+            <div class="div-box-sub info-controls-row">
                 <div class="search-input">
                     <input type="text" id="detailsSearchInput" class="search" placeholder="Search name or callsign..."
                         onkeyup="filterDetails()">
@@ -434,6 +463,9 @@
                     <select id="addressFilter" onchange="filterDetails()" class="Adr">
                         <option value="">All Addresses</option>
                     </select>
+                </div>
+                <div class="info-admin-toolbar" id="infoAdminToolbar" style="display: none;">
+                    <button class="info-admin-btn" onclick="openInformationForm()">Add Fisherman</button>
                 </div>
             </div>
 
@@ -449,6 +481,7 @@
                             <th>Boat Color</th>
                             <th>Engine Type</th>
                             <th>Boat Length</th>
+                            <th id="infoActionsHeader" style="display: none;">Actions</th>
                         </tr>
                     </thead>
                     <tbody id="detailsTable"></tbody>
@@ -459,15 +492,103 @@
         </div>
     </div>
 
+    <div id="informationFormModal" class="modal" style="display: none;">
+        <div class="modal-content info-form-modal-content">
+            <div class="close-div">
+                <div class="title-modal">
+                    <div class="title" id="informationFormTitle">
+                        Add Fisherman
+                    </div>
+                    <img src="public/assets/logos/logo-2.png" alt="logo" width="70" height="auto" class="logo">
+                </div>
+                <span class="close-modal" onclick="closeInformationForm()">
+                    <img src="public/assets/icons/delete.png" alt="Close" width="24">
+                </span>
+            </div>
+            <div class="line"></div>
+            <div class="info-form-panel">
+                <input type="hidden" id="infoDocId">
+                <div class="info-form-intro">
+                    <h3 id="informationFormHeading">Fisherman Information</h3>
+                    <p>Fill in the fisherman details below before saving the record.</p>
+                </div>
+
+                <div class="info-form-section">
+                    <h4>Personal Information</h4>
+                    <div class="info-form-grid">
+                        <div class="info-field">
+                            <label for="infoIdInput">Fisherman ID</label>
+                            <input type="number" id="infoIdInput" placeholder="Enter ID number">
+                        </div>
+                        <div class="info-field info-field-wide">
+                            <label for="infoNameInput">Full Name</label>
+                            <input type="text" id="infoNameInput" placeholder="Enter full name">
+                        </div>
+                        <div class="info-field">
+                            <label for="infoCallsignInput">Callsign</label>
+                            <input type="text" id="infoCallsignInput" placeholder="Enter callsign">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-form-section">
+                    <h4>Contact Details</h4>
+                    <div class="info-form-grid">
+                        <div class="info-field info-field-wide">
+                            <label for="infoPhoneInput">Phone Number</label>
+                            <input type="text" id="infoPhoneInput" placeholder="09XX-XXX-XXXX">
+                        </div>
+                        <div class="info-field info-field-wide">
+                            <label for="infoAddressInput">Address</label>
+                            <input type="text" id="infoAddressInput" placeholder="Enter complete address">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-form-section">
+                    <h4>Boat Details</h4>
+                    <div class="info-form-grid">
+                        <div class="info-field">
+                            <label for="infoBoatColorInput">Boat Color</label>
+                            <input type="text" id="infoBoatColorInput" placeholder="Enter boat color">
+                        </div>
+                        <div class="info-field">
+                            <label for="infoEngineTypeInput">Engine Type</label>
+                            <input type="text" id="infoEngineTypeInput" placeholder="Enter engine type">
+                        </div>
+                        <div class="info-field">
+                            <label for="infoBoatLengthInput">Boat Length</label>
+                            <input type="number" id="infoBoatLengthInput" placeholder="Length in meters" step="0.1">
+                        </div>
+                    </div>
+                </div>
+                <div class="info-form-actions">
+                    <button class="info-admin-btn" onclick="submitInformationForm()">Save</button>
+                    <button class="info-admin-btn secondary" onclick="closeInformationForm()">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 
-    <script src="src/js/DisplaySenderHistory.js"></script>
-    <script src="src/js/DelayWarning.js"></script>
-    <script src="src/js/config.js"></script>
+
+    <script src="src/js/shared-app-state.js"></script>
+    <script src="src/js/sender-history-renderer.js"></script>
+    <script src="src/js/inactivity-warnings.js"></script>
+    <script src="src/js/frontend-config.js"></script>
     <script src="https://unpkg.com/convex@latest/dist/browser.bundle.js"></script>
-    <script src="src/js/convexAdapter.js"></script>
-    <script src="src/js/main.js"></script>
+    <script src="src/js/convex-api-bridge.js"></script>
+    <script src="src/js/role-auth.js"></script>
+    <script src="src/js/leaflet-map-setup.js"></script>
+    <script src="src/js/sos-alerts.js"></script>
+    <script src="src/js/sender-history-tools.js"></script>
+    <script src="src/js/map-search-tools.js"></script>
+    <script src="src/js/safety-reports.js"></script>
+    <script src="src/js/fishermen-information.js"></script>
+    <script src="src/js/station-map-controller.js"></script>
+    <script src="src/js/modal-controls.js"></script>
+    <script src="src/js/app-bootstrap.js"></script>
 </body>
 
 </html>

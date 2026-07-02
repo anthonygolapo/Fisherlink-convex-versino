@@ -62,6 +62,21 @@
         case "fetch_information":
           dispatch(await runQuery(api.information.list, {}));
           break;
+        case "create_information":
+          await runMutation(api.information.create, data.record);
+          dispatch(await runQuery(api.information.list, {}));
+          dispatch(await runQuery(api.stations.getLatest, {}));
+          break;
+        case "update_information":
+          await runMutation(api.information.update, data.record);
+          dispatch(await runQuery(api.information.list, {}));
+          dispatch(await runQuery(api.stations.getLatest, {}));
+          break;
+        case "delete_information":
+          await runMutation(api.information.remove, { docId: data.docId });
+          dispatch(await runQuery(api.information.list, {}));
+          dispatch(await runQuery(api.stations.getLatest, {}));
+          break;
         case "safe_report":
           dispatch(await runQuery(api.reports.safeReport, {}));
           break;
@@ -125,7 +140,9 @@
       const changed =
         !lastUpdateStamp ||
         nextStamp.packetCount !== lastUpdateStamp.packetCount ||
-        nextStamp.latestTimeReceived !== lastUpdateStamp.latestTimeReceived;
+        nextStamp.latestTimeReceived !== lastUpdateStamp.latestTimeReceived ||
+        nextStamp.informationCount !== lastUpdateStamp.informationCount ||
+        nextStamp.informationSignature !== lastUpdateStamp.informationSignature;
 
       if (changed) {
         lastUpdateStamp = nextStamp;
@@ -147,12 +164,12 @@
         dispatch(payload);
       }
     });
-  }
-
-  void checkForChanges();
-  setInterval(() => {
+  } else {
     void checkForChanges();
-  }, 5000);
+    setInterval(() => {
+      void checkForChanges();
+    }, 5000);
+  }
 
   const socketLike = {
     OPEN,

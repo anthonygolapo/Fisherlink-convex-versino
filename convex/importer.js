@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { upsertLatestStation } from "./lib";
 
 const informationRow = v.object({
   id: v.union(v.number(), v.null()),
@@ -36,14 +37,16 @@ function toOptionalString(value) {
 export const counts = query({
   args: {},
   handler: async (ctx) => {
-    const [information, aprsPackets] = await Promise.all([
+    const [information, aprsPackets, latestStations] = await Promise.all([
       ctx.db.query("information").collect(),
-      ctx.db.query("aprs_packets").collect()
+      ctx.db.query("aprs_packets").collect(),
+      ctx.db.query("latest_stations").collect()
     ]);
 
     return {
       information: information.length,
-      aprs_packets: aprsPackets.length
+      aprs_packets: aprsPackets.length,
+      latest_stations: latestStations.length
     };
   }
 });
@@ -55,6 +58,9 @@ export const clearAll = mutation({
       await ctx.db.delete(row._id);
     }
     for (const row of await ctx.db.query("aprs_packets").collect()) {
+      await ctx.db.delete(row._id);
+    }
+    for (const row of await ctx.db.query("latest_stations").collect()) {
       await ctx.db.delete(row._id);
     }
 
@@ -92,8 +98,10 @@ export const importAprsPacketsBatch = mutation({
     rows: v.array(packetRow)
   },
   handler: async (ctx, args) => {
+    const latestBySender = new Map();
+
     for (const row of args.rows) {
-      await ctx.db.insert("aprs_packets", {
+      const packet = {
         sender: row.sender,
         latitude: row.latitude,
         longitude: row.longitude,
@@ -101,9 +109,54 @@ export const importAprsPacketsBatch = mutation({
         message: toOptionalString(row.message),
         place: toOptionalString(row.place),
         battery_percentage: toOptionalNumber(row.battery_percentage)
-      });
+      };
+
+      await ctx.db.insert("aprs_packets", packet);
+
+      const currentLatest = latestBySender.get(packet.sender);
+      if (!currentLatest || packet.time_received > currentLatest.time_received) {
+        latestBySender.set(packet.sender, packet);
+      }
+    }
+
+    for (const packet of latestBySender.values()) {
+      await upsertLatestStation(ctx, packet);
     }
 
     return { inserted: args.rows.length };
+  }
+});
+
+export const rebuildLatestStations = mutation({
+  args: {},
+  handler: async (ctx) => {
+    for (const row of await ctx.db.query("latest_stations").collect()) {
+      await ctx.db.delete(row._id);
+    }
+
+    const latestBySender = new Map();
+    for (const packet of await ctx.db.query("aprs_packets").collect()) {
+      const existing = latestBySender.get(packet.sender);
+      if (!existing || packet.time_received > existing.time_received) {
+        latestBySender.set(packet.sender, packet);
+      }
+    }
+
+    for (const packet of latestBySender.values()) {
+      await ctx.db.insert("latest_stations", {
+        sender: packet.sender,
+        latitude: packet.latitude,
+        longitude: packet.longitude,
+        time_received: packet.time_received,
+        message: packet.message || undefined,
+        place: packet.place || undefined,
+        battery_percentage:
+          packet.battery_percentage === null || packet.battery_percentage === undefined
+            ? undefined
+            : packet.battery_percentage
+      });
+    }
+
+    return { rebuilt: latestBySender.size };
   }
 });

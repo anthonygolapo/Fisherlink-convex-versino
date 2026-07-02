@@ -1,13 +1,13 @@
 /* Sidebar styling */
 #sidebar {
     position: absolute;
-    top: 93px;
+    top: 90px;
     right: -350px;
     /* Sidebar starts off-screen */
     width: 300px;  
     /* 0.6 = 60% opacity */
     color: white;
-    overflow-y: auto;
+    overflow: hidden;
     transition: right 0.3s ease;
     z-index: 1500;
     
@@ -23,7 +23,8 @@
     /* start content from the top */
     background-color: #0f1e27;
     gap: 10px;
-    height: 600px;
+    height: calc(100vh - 120px);
+    max-height: calc(100vh - 120px);
     padding: 18px;
     padding-top: 30px;
 
@@ -33,11 +34,65 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    flex: 1;
+    min-height: 0;
 
 }
 
-.button-sidebar button{
+.sidebar-summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.sidebar-role-status {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+}
+
+.sidebar-role-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 14px;
+    border-radius: 999px;
+    background: rgba(148, 248, 255, 0.12);
+    border: 1px solid rgba(148, 248, 255, 0.3);
+    color: rgb(148, 248, 255);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sidebar-logout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 0;
+    padding: 10px;
+    border: 1px solid rgba(255, 143, 143, 0.35);
+    border-radius: 8px;
+    background: rgba(184, 45, 45, 0.16);
+    color: #ffd5d5;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
     gap: 8px;
+}
+
+.sidebar-logout-btn img {
+    width: 14px;
+    height: 14px;
+}
+
+.button-sidebar button{
+    gap: 10px;
 }
 .sidebar{
     height: 30px;
@@ -68,8 +123,9 @@
 
 
 #senderList {
-    min-height: 260px;
-    max-height: 260px;
+    flex: 1;
+    min-height: 0;
+    max-height: none;
     overflow-y: auto;
     /* Enable vertical scrolling */
     scrollbar-width: thin;
@@ -79,9 +135,15 @@
 .count-div {
     display: flex;
     align-items: center;
-    font-size: 24px;
+    justify-content: flex-start;
+    flex: 1;
+    min-width: 0;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 0;
+    text-align: left;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 
@@ -130,6 +192,11 @@
             0 2px 0 #313c43;
 }
 
+.sidebar-logout-btn:hover {
+    background: rgba(184, 45, 45, 0.28);
+    box-shadow: none;
+}
+
 .line-sidebar {
     display: flex;
     height: 5px;
@@ -151,7 +218,6 @@
     height: 24px;
 }
 
-
 @media (max-width: 600px) {
 
     * {
@@ -160,13 +226,13 @@
 
     #sidebar {
         position: absolute;
-        top: 68px;
+        top: 60px;
         right: -350px;
         /* Sidebar starts off-screen */
         width: 300px;
         /* 0.6 = 60% opacity */
         color: white;
-        overflow-y: auto;
+        overflow: hidden;
         transition: right 0.3s ease;
     
 
@@ -182,7 +248,8 @@
         /* start content from the top */
         background-color: #0f1e27;
         gap: 10px;
-        height: 750px;
+        height: calc(100vh - 80px);
+        max-height: calc(100vh - 80px);
         padding: 18px;
         padding-top: 30px;
 
@@ -193,8 +260,9 @@
     }
 
     #senderList {
-        min-height: 350px;
-        max-height: 350px;
+        flex: 1;
+        min-height: 0;
+        max-height: none;
         overflow-y: auto;
         /* Enable vertical scrolling */
         scrollbar-width: thin;
@@ -204,8 +272,5 @@
     .sidebar {
         height: 40px;     
     }
-
-    
-
 
 }

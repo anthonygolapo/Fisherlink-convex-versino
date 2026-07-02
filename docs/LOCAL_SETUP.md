@@ -26,9 +26,11 @@ npx convex dev
 
 This creates or connects a Convex deployment and generates the local Convex files needed by the backend functions.
 
-## 4. Set the frontend deployment URL
+## 4. Set the frontend deployment URL and local passwords
 
-Update [src/js/config.js](/C:/Users/ENVI-COMM/Desktop/fisherlink-website-main/fisherlink-website-main/src/js/config.js) and replace the placeholder `CONVEX_URL` with your actual Convex deployment URL.
+Update [frontend-config.js](/C:/Users/ENVI-COMM/Desktop/fisherlink-website-main/fisherlink-website-main/src/js/frontend-config.js) and replace the placeholder `CONVEX_URL` with your actual Convex deployment URL.
+
+Also replace the placeholder values in `AUTH.ADMIN_PASSWORD` and `AUTH.USER_PASSWORD` before using the app locally.
 
 ## 5. Seed or import your data
 
@@ -48,6 +50,8 @@ Optional flags:
 
 The importer reads `DB_HOST`, `DB_USER`, `DB_PASS`, `DB_NAME`, `DB_PORT`, and `CONVEX_URL` from your shell or a local `.env` file.
 
+For sharing the project, keep real environment values only in your ignored local env files and share placeholder-based files such as `.env.example`.
+
 ## 6. Open the frontend
 
 Serve the folder with any simple static file server.
@@ -64,6 +68,7 @@ Then open:
 
 ## Notes
 
-- The old Python backend remains in `backend/` as a legacy reference.
-- The active frontend data layer now uses Convex through `src/js/convexAdapter.js`.
+- The old Python backend remains in `backend/` as a legacy reference, with files renamed to `*.legacy*` where appropriate.
+- The active frontend data layer now uses Convex through `src/js/convex-api-bridge.js`.
+- The active backend code is the Convex code in `convex/`.
 - Static assets remain under `public/assets/`.

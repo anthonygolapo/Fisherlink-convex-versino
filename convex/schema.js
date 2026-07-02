@@ -14,6 +14,17 @@ export default defineSchema(
     })
       .index("by_sender_time", ["sender", "time_received"])
       .index("by_time_received", ["time_received"]),
+    latest_stations: defineTable({
+      sender: v.string(),
+      latitude: v.number(),
+      longitude: v.number(),
+      time_received: v.number(),
+      message: v.optional(v.string()),
+      place: v.optional(v.string()),
+      battery_percentage: v.optional(v.number())
+    })
+      .index("by_sender", ["sender"])
+      .index("by_time_received", ["time_received"]),
     information: defineTable({
       id: v.optional(v.number()),
       name: v.string(),
