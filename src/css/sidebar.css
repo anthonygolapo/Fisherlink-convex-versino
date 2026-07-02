@@ -1,6 +1,6 @@
 /* Sidebar styling */
 #sidebar {
-    position: absolute;
+    position: fixed;
     top: 90px;
     right: 0;
     /* Sidebar starts off-screen */
@@ -10,7 +10,10 @@
     color: white;
     overflow: hidden;
     transform: translateX(110%);
-    transition: transform 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 0.3s ease, opacity 0.2s ease, visibility 0.2s ease;
     z-index: 1500;
     
    
@@ -106,6 +109,9 @@
 
 #sidebar.open {
     transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
     /* Sidebar comes into view */
 }
 
@@ -227,7 +233,7 @@
     }
 
     #sidebar {
-        position: absolute;
+        position: fixed;
         top: 60px;
         right: 0;
         /* Sidebar starts off-screen */
@@ -237,7 +243,10 @@
         color: white;
         overflow: hidden;
         transform: translateX(110%);
-        transition: transform 0.3s ease;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: transform 0.3s ease, opacity 0.2s ease, visibility 0.2s ease;
     
 
 
