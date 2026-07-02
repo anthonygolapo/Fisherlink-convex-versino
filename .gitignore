@@ -63,3 +63,4 @@ venv/
 # Ignore logs and temp files
 *.log
 *.sqlite3
+dist/

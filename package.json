@@ -2,6 +2,7 @@
   "name": "fisherlink-convex",
   "private": true,
   "scripts": {
+    "vercel-build": "node scripts/buildVercelStatic.mjs",
     "convex:dev": "convex dev",
     "convex:deploy": "convex deploy",
     "import:mysql-to-convex": "node scripts/mysqlToConvex.mjs"
