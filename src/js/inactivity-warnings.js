@@ -1,16 +1,20 @@
 function showDelayWarning(sender, minutes) {
     const safeId = `delay-alert-${sender.replace(/[^a-zA-Z0-9]/g, "_")}`;
     const existingAlert = document.getElementById(safeId);
+    const isPhone = window.innerWidth <= 600;
+    const message = isPhone
+        ? `Delay: <strong>${sender}</strong> inactive ${Math.floor(minutes)} min`
+        : `Delay: <strong>${sender}</strong> has been inactive for ${Math.floor(minutes)} minutes!`;
 
     if (existingAlert) {
-        existingAlert.innerHTML = `Delay: <strong>${sender}</strong> has been inactive for ${Math.floor(minutes)} minutes!`;
+        existingAlert.innerHTML = message;
         adjustPopupPositions();
         return;
     }
 
     const alertDiv = document.createElement("div");
     alertDiv.id = safeId;
-    alertDiv.innerHTML = `Delay: <strong>${sender}</strong> has been inactive for ${Math.floor(minutes)} minutes!`;
+    alertDiv.innerHTML = message;
     alertDiv.style.background = "#a46b00ff";
     alertDiv.style.color = "black";
     alertDiv.style.padding = "10px 14px";
@@ -26,11 +30,11 @@ function showDelayWarning(sender, minutes) {
     alertDiv.style.lineHeight = "1.4";
     alertDiv.style.transition = "top 0.2s ease";
 
-    if (window.innerWidth <= 600) {
-        alertDiv.style.left = "12px";
-        alertDiv.style.right = "12px";
-        alertDiv.style.maxWidth = "none";
-        alertDiv.style.padding = "8px 12px";
+    if (isPhone) {
+        alertDiv.style.left = "auto";
+        alertDiv.style.right = "10px";
+        alertDiv.style.maxWidth = "180px";
+        alertDiv.style.padding = "7px 10px";
         alertDiv.style.fontSize = "12px";
         alertDiv.style.lineHeight = "1.35";
         alertDiv.style.borderRadius = "10px";
