@@ -1,10 +1,13 @@
 html,
 body {
     height: 100%;
+    width: 100%;
+    max-width: 100%;
     /* Full height */
     margin: 0;
     padding: 0;
     overflow: hidden;
+    overflow-x: hidden;
     /* Disable scrollbars */
     font-family: sans-serif;
 }
@@ -12,7 +15,7 @@ body {
 #map {
     height: 100vh;
     /* Full viewport height */
-    width: 100vw;
+    width: 100%;
     /* Full viewport width */
     overflow: hidden;
     /* Disable scrolling inside the map */
