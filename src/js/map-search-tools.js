@@ -135,6 +135,13 @@
         sidebar.classList.toggle("open");
     }
 
+    function closeSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        if (sidebar) {
+            sidebar.classList.remove("open");
+        }
+    }
+
     function filterSenders() {
         const searchInput = document.getElementById("sidebarSearch").value.toLowerCase();
         const listItems = document.querySelectorAll("#senderList li");
@@ -203,6 +210,7 @@
         searchSender,
         plotTrail,
         toggleSidebar,
+        closeSidebar,
         filterSenders
     });
 })();

@@ -25,6 +25,10 @@
         const errorEl = document.getElementById("authError");
         const passwordInput = document.getElementById("rolePassword");
 
+        if (typeof window.closeSidebar === "function") {
+            window.closeSidebar();
+        }
+
         if (errorEl) {
             errorEl.textContent = "";
         }

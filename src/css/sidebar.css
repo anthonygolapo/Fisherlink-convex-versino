@@ -2,13 +2,15 @@
 #sidebar {
     position: absolute;
     top: 90px;
-    right: -350px;
+    right: 0;
     /* Sidebar starts off-screen */
     width: 300px;  
+    max-width: calc(100vw - 24px);
     /* 0.6 = 60% opacity */
     color: white;
     overflow: hidden;
-    transition: right 0.3s ease;
+    transform: translateX(110%);
+    transition: transform 0.3s ease;
     z-index: 1500;
     
    
@@ -103,7 +105,7 @@
 
 
 #sidebar.open {
-    right: 0;
+    transform: translateX(0);
     /* Sidebar comes into view */
 }
 
@@ -227,13 +229,15 @@
     #sidebar {
         position: absolute;
         top: 60px;
-        right: -350px;
+        right: 0;
         /* Sidebar starts off-screen */
         width: 300px;
+        max-width: calc(100vw - 16px);
         /* 0.6 = 60% opacity */
         color: white;
         overflow: hidden;
-        transition: right 0.3s ease;
+        transform: translateX(110%);
+        transition: transform 0.3s ease;
     
 
 
