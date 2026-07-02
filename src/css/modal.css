@@ -112,6 +112,8 @@
     background: rgba(0, 0, 0, 0.72);
     z-index: 4000;
     padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
 }
 
 .auth-modal-content {
@@ -126,11 +128,14 @@
 
 .auth-modal-content h2 {
     margin: 0 0 8px;
+    font-size: clamp(28px, 4vw, 34px);
 }
 
 .auth-subtitle {
     margin: 0 0 20px;
     color: #ffffff;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 .auth-logo {
@@ -156,6 +161,7 @@
 .auth-field select {
     display: block;
     width: 100%;
+    min-height: 48px;
     box-sizing: border-box;
     padding: 12px 14px;
     border-radius: 10px;
@@ -187,6 +193,7 @@
 
 .auth-login-btn {
     width: 100%;
+    min-height: 48px;
     background: #1d8f4e;
     color: #fff;
 }
@@ -201,4 +208,51 @@
 .role-logout {
     background: #b82d2d;
     color: #fff;
+}
+
+@media (max-width: 600px) {
+    .auth-modal {
+        align-items: flex-start;
+        padding: 16px 12px;
+    }
+
+    .auth-modal-content {
+        width: 100%;
+        margin: auto 0;
+        padding: 24px 18px 20px;
+        border-radius: 16px;
+    }
+
+    .auth-logo {
+        width: min(160px, 60vw);
+        margin-bottom: 12px;
+    }
+
+    .auth-modal-content h2 {
+        margin-bottom: 6px;
+        font-size: clamp(24px, 7vw, 30px);
+    }
+
+    .auth-subtitle {
+        margin-bottom: 18px;
+        font-size: 14px;
+    }
+
+    .auth-field {
+        margin-bottom: 14px;
+    }
+
+    .auth-field label {
+        font-size: 14px;
+    }
+
+    .auth-field input,
+    .auth-field select,
+    .auth-login-btn {
+        font-size: 16px;
+    }
+
+    .auth-error {
+        font-size: 13px;
+    }
 }
