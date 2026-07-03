@@ -1,7 +1,7 @@
 /* Sidebar styling */
 #sidebar {
     position: fixed;
-    top: 90px;
+    top: var(--sidebar-top, 90px);
     right: 0;
     /* Sidebar starts off-screen */
     width: 300px;  
@@ -28,8 +28,8 @@
     /* start content from the top */
     background-color: #0f1e27;
     gap: 10px;
-    height: calc(100vh - 120px);
-    max-height: calc(100vh - 120px);
+    height: calc(100dvh - var(--sidebar-top, 90px));
+    max-height: calc(100dvh - var(--sidebar-top, 90px));
     padding: 18px;
     padding-top: 30px;
 
@@ -99,10 +99,47 @@
 .button-sidebar button{
     gap: 10px;
 }
-.sidebar{
-    height: 30px;
+.sidebar-search-shell {
+    display: flex;
+    align-items: center;
     width: 100%;
     min-width: 0;
+    height: 46px;
+    min-height: 46px;
+    padding: 0 11px;
+    border-radius: 19px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background: rgba(10, 20, 26, 0.6);
+    box-shadow:
+        inset 4px 4px 2px rgba(0, 0, 0, 0.8),
+        0 2px 0 #313c43;
+}
+
+.sidebar-search-field {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    border: none;
+    outline: none;
+    padding: 0;
+    background: transparent;
+    color: #ffffff;
+    font-size: 13px;
+    line-height: 1.2;
+    box-sizing: border-box;
+}
+
+.sidebar-search-field::placeholder {
+    color: rgba(255, 255, 255, 0.48);
+}
+
+.sidebar-search-icon {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    margin-left: 7px;
 }
 
 
@@ -235,12 +272,11 @@
 
     #sidebar {
         position: fixed;
-        top: 60px;
+        top: var(--sidebar-top, 60px);
         right: 0;
-        /* Sidebar starts off-screen */
-        width: 300px;
-        max-width: calc(100vw - 16px);
-        /* 0.6 = 60% opacity */
+        width: min(86vw, 320px);
+        max-width: calc(100vw - 12px);
+        bottom: 0;
         color: white;
         overflow: hidden;
         transform: translateX(110%);
@@ -257,20 +293,36 @@
     #sidebar-container {
         display: flex;
         flex-direction: column;
-        /* stack elements vertically */
         justify-content: flex-start;
-        /* start content from the top */
         background-color: #0f1e27;
-        gap: 10px;
-        height: calc(100vh - 80px);
-        max-height: calc(100vh - 80px);
-        padding: 18px;
-        padding-top: 30px;
+        gap: 8px;
+        height: calc(100dvh - var(--sidebar-top, 60px));
+        max-height: calc(100dvh - var(--sidebar-top, 60px));
+        padding: 14px;
+        padding-top: 18px;
 
     }
-    
+
+    .sidebar-summary-row {
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .count-div {
+        font-size: 15px;
+        line-height: 1.15;
+        white-space: normal;
+    }
+
+    .sidebar-role-badge {
+        padding: 7px 10px;
+        font-size: 11px;
+        letter-spacing: 0.04em;
+    }
+
     .button-sidebar{
-        gap: 20px;
+        gap: 10px;
     }
 
     #senderList {
@@ -278,45 +330,63 @@
         min-height: 0;
         max-height: none;
         overflow-y: auto;
-        /* Enable vertical scrolling */
         scrollbar-width: thin;
-        /* Optional: Makes scrollbar less intrusive */
+        font-size: 14px;
     }
 
-    .sidebar {
-        height: auto;
-        width: 100%;
-        min-width: 0;
+    #senderList li {
+        padding: 7px 4px;
+        line-height: 1.2;
     }
 
-    .search-input.sidebar {
+    .sidebar-search-shell {
         display: flex;
         align-items: center;
         width: 100%;
         max-width: 100%;
         min-width: 0;
-        min-height: 44px;
-        height: 44px;
-        margin: 0;
-        padding: 0 14px;
-        border-radius: 32px;
+        min-height: 33px;
+        height: 33px;
+        padding: 0 10px;
+        border-radius: 17px;
         box-sizing: border-box;
         overflow: hidden;
     }
 
-    .search-input.sidebar .search {
+    .sidebar-search-field {
         flex: 1 1 auto;
         min-width: 0;
         width: 100%;
-        font-size: 14px;
+        font-size: 12px;
         line-height: 1.2;
     }
 
-    .search-input.sidebar img {
+    .sidebar-search-icon {
         flex: 0 0 auto;
-        width: 15px;
-        height: 15px;
-        margin-left: 8px;
+        width: 13px;
+        height: 13px;
+        margin-left: 7px;
+    }
+
+    .line-sidebar {
+        margin: 8px 0;
+    }
+
+    .button-sidebar button,
+    .sidebar-logout-btn {
+        padding: 8px 6px;
+        font-size: 13px;
+        gap: 10px;
+    }
+
+    .button-sidebar button img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .sidebar-logout-btn img {
+        width: 13px;
+        height: 13px;
     }
 
 }
