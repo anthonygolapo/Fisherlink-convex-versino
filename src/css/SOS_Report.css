@@ -9,11 +9,18 @@
     flex-direction: row;
     justify-content: space-between;
     gap: 15px;
+    margin-top: 18px;
+    min-height: auto;
+    height: auto;
 }
 
 #safeReportModal .div-box-sub {
     display: flex;
+    align-items: stretch;
     gap: 18px;
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
 }
 
 #safeReportModal .div-box-sub .search-input {
@@ -28,12 +35,19 @@
 #safeReportModal .div-box-sub-SOS {
     display: flex;
     flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex: 1 1 auto;
     gap: 12px;
+    height: auto;
+    min-height: 0;
 }
 
 #safeReportModal .div-box-sub-SOS > div {
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex: 1 1 0;
     gap: 12px;
 }
 
@@ -41,12 +55,26 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    flex-wrap: nowrap;
 }
 
 #safeReportModal .modal-content {
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+#safeReportModal .line {
+    flex: 0 0 auto;
+}
+
+#safeReportModal .div-box,
+#safeReportModal .print-Btn {
+    flex: 0 0 auto;
+}
+
+#safeReportModal .div-box + .scrollable-safe-report {
+    margin-top: 12px;
 }
 
 #safeReportTable {
@@ -135,10 +163,11 @@
     overflow-y: auto;
     overflow-x: auto;
     /* enables vertical scrolling */
-    margin-top: 20px;
+    margin-top: 0;
     border-radius: 14px;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(6, 14, 20, 0.18);
+    margin-bottom: 8px;
 }
 
 
@@ -146,6 +175,7 @@
 .ShowDetail-Btn{
     display: flex;
     width: 160px;
+    flex: 0 0 auto;
 }
 
 
@@ -255,6 +285,8 @@
         width: 100%;
         padding-left: 16px;
         padding-right: 16px;
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 
     #safeReportModal .title-modal {
@@ -272,38 +304,59 @@
     }
 
     #safeReportModal .scrollable-safe-report {
+        display: block;
         flex: 1 1 auto;
+        width: 100%;
         min-height: 0;
-        max-height: 50vh;
-        margin-top: 16px;
+        max-height: none;
+        margin-top: 0;
+        margin-bottom: 8px;
+        overflow-x: auto;
+        overflow-y: auto;
+    }
+
+    #safeReportModal .div-box + .scrollable-safe-report {
+        margin-top: 10px;
     }
 
     #safeReportModal .div-box {
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
-        gap: 10px;
+        gap: 12px;
         height: auto;
         margin-top: 14px;
     }
 
-    #safeReportModal .div-box-sub,
+    #safeReportModal .div-box-sub {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        gap: 10px;
+        width: 100%;
+        height: auto !important;
+        min-height: 0;
+    }
+
+    #safeReportModal .div-box-sub .search-input {
+        flex: 1 1 auto;
+        min-width: 0;
+    }
+
     #safeReportModal .div-box-sub-SOS {
         display: flex;
         flex-direction: column;
         gap: 10px;
         width: 100%;
-    }
-
-    #safeReportModal .div-box-sub > * {
-        width: 100%;
+        height: auto !important;
+        min-height: 0;
     }
 
     #safeReportModal .search-input {
         width: 100%;
         max-width: 100%;
         min-width: 0;
-        min-height: 44px;
+        min-height: 40px;
         box-sizing: border-box;
         padding-top: 2px;
         padding-bottom: 2px;
@@ -314,34 +367,44 @@
         width: 100%;
     }
 
-    #safeReportModal .ShowDetail-Btn,
+    #safeReportModal .ShowDetail-Btn {
+        width: 132px;
+        flex: 0 0 132px;
+    }
+
+    #safeReportModal .ShowDetail-Btn button {
+        width: 100%;
+        justify-content: center;
+    }
+
     #safeReportModal .print-Btn {
         width: 100%;
     }
 
-    #safeReportModal .ShowDetail-Btn button,
     #safeReportModal .print-Btn button {
         width: 100%;
         justify-content: center;
     }
 
     #safeReportModal .div-box-sub-SOS > div {
-        flex-direction: column;
+        flex-direction: row;
         align-items: stretch;
-        gap: 6px;
+        gap: 10px;
     }
 
     #safeReportModal .div-box-sub-SOS label {
-        margin-bottom: 0;
+        display: flex;
+        align-items: center;
+        min-width: 42px;
         font-size: 14px;
     }
 
     #safeReportModal .div-box-sub-SOS .filter-group {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         width: 100%;
         box-sizing: border-box;
-        align-items: stretch;
+        align-items: center;
         gap: 6px;
         padding: 8px 10px;
         border-radius: 12px;
@@ -349,7 +412,7 @@
 
     #safeReportModal .yearInput,
     #safeReportModal .dropdown {
-        width: 100%;
+        width: 50%;
         min-width: 0;
         box-sizing: border-box;
         font-size: 14px;
@@ -361,7 +424,35 @@
     }
 
     #safeReportModal .print-Btn {
-        margin-top: 14px;
+        margin-top: 0;
+        margin-bottom: 8px;
+        flex: 0 0 auto;
+    }
+}
+
+@media (max-width: 420px) {
+    #safeReportModal .div-box-sub {
+        flex-direction: column;
+    }
+
+    #safeReportModal .ShowDetail-Btn {
+        width: 100%;
+        flex: 1 1 auto;
+    }
+
+    #safeReportModal .div-box-sub-SOS > div {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    #safeReportModal .div-box-sub-SOS .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #safeReportModal .yearInput,
+    #safeReportModal .dropdown {
+        width: 100%;
     }
 }
 
