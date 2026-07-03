@@ -201,31 +201,88 @@
 
 @media (max-width: 600px) {
 
-    
-.scrollable-safe-report {
+    .search-filter-container {
+        flex-direction: column;
+        gap: 14px;
+        margin-top: 18px;
+    }
+
+    .scrollable-safe-report {
         max-height: 350px;
         /* fixed height for scroll */
         overflow-y: auto;
         /* enables vertical scrolling */
-
-        /* optional for clarity */
-        margin-top: 130px;
+        margin-top: 18px;
     }
 
-.div-box-sub-SOS{
-    display: flex;
-    flex-direction: column;
-}
+    .div-box {
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: 14px;
+        height: auto;
+        margin-top: 16px;
+    }
 
-.yearInput {
-    width: 145px;
-   
-}
+    .div-box-sub,
+    .div-box-sub-SOS {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
 
-.dropdown {
-    width: 145px;
-}
+    .div-box-sub > * {
+        width: 100%;
+    }
 
+    .search-input:has(#safeReportSearchInput) {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    #safeReportSearchInput {
+        min-width: 0;
+    }
+
+    .ShowDetail-Btn,
+    .print-Btn {
+        width: 100%;
+    }
+
+    .ShowDetail-Btn button,
+    .print-Btn button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .div-box-sub-SOS > div {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .div-box-sub-SOS label {
+        margin-bottom: 0;
+    }
+
+    .div-box-sub-SOS .filter-group {
+        width: 100%;
+        box-sizing: border-box;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    .yearInput,
+    .dropdown {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .styled-table {
+        min-width: 640px;
+    }
 
     
 }
