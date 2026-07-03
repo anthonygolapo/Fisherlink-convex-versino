@@ -4,6 +4,12 @@
     margin-top: 20px;
 }
 
+#safeReportModal .modal-content {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
 #safeReportTable {
     max-height: 400px;
     min-height: 400px;
@@ -82,13 +88,18 @@
 
 
 .scrollable-safe-report {
+    display: flex;
+    flex: 1 1 auto;
+    min-height: 0;
     max-height: 350px;
     /* fixed height for scroll */
     overflow-y: auto;
+    overflow-x: auto;
     /* enables vertical scrolling */
-    
-    /* optional for clarity */
     margin-top: 20px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(6, 14, 20, 0.18);
 }
 
 
@@ -200,22 +211,41 @@
 }
 
 @media (max-width: 600px) {
+    #safeReportModal .modal-content {
+        height: 100vh;
+        width: 100%;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
 
-    .search-filter-container {
+    #safeReportModal .title-modal {
+        gap: 8px;
+        align-items: center;
+    }
+
+    #safeReportModal .title {
+        font-size: 30px;
+        width: auto;
+    }
+
+    #safeReportModal .close-div {
+        padding-top: 22px;
+    }
+
+    #safeReportModal .search-filter-container {
         flex-direction: column;
         gap: 14px;
         margin-top: 18px;
     }
 
-    .scrollable-safe-report {
-        max-height: 350px;
-        /* fixed height for scroll */
-        overflow-y: auto;
-        /* enables vertical scrolling */
+    #safeReportModal .scrollable-safe-report {
+        flex: 1 1 auto;
+        min-height: 0;
+        max-height: 46vh;
         margin-top: 18px;
     }
 
-    .div-box {
+    #safeReportModal .div-box {
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
@@ -224,66 +254,70 @@
         margin-top: 16px;
     }
 
-    .div-box-sub,
-    .div-box-sub-SOS {
+    #safeReportModal .div-box-sub,
+    #safeReportModal .div-box-sub-SOS {
         display: flex;
         flex-direction: column;
         gap: 12px;
         width: 100%;
     }
 
-    .div-box-sub > * {
+    #safeReportModal .div-box-sub > * {
         width: 100%;
     }
 
-    .search-input:has(#safeReportSearchInput) {
+    #safeReportModal .search-input {
         width: 100%;
+        max-width: 100%;
+        min-width: 0;
         box-sizing: border-box;
     }
 
     #safeReportSearchInput {
         min-width: 0;
-    }
-
-    .ShowDetail-Btn,
-    .print-Btn {
         width: 100%;
     }
 
-    .ShowDetail-Btn button,
-    .print-Btn button {
+    #safeReportModal .ShowDetail-Btn,
+    #safeReportModal .print-Btn {
+        width: 100%;
+    }
+
+    #safeReportModal .ShowDetail-Btn button,
+    #safeReportModal .print-Btn button {
         width: 100%;
         justify-content: center;
     }
 
-    .div-box-sub-SOS > div {
+    #safeReportModal .div-box-sub-SOS > div {
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
     }
 
-    .div-box-sub-SOS label {
+    #safeReportModal .div-box-sub-SOS label {
         margin-bottom: 0;
     }
 
-    .div-box-sub-SOS .filter-group {
+    #safeReportModal .div-box-sub-SOS .filter-group {
+        display: flex;
+        flex-direction: column;
         width: 100%;
         box-sizing: border-box;
-        justify-content: space-between;
+        align-items: stretch;
         gap: 8px;
         padding: 8px 12px;
     }
 
-    .yearInput,
-    .dropdown {
+    #safeReportModal .yearInput,
+    #safeReportModal .dropdown {
         width: 100%;
         min-width: 0;
+        box-sizing: border-box;
     }
 
-    .styled-table {
+    #safeReportModal .styled-table {
         min-width: 640px;
     }
-
-    
 }
 
