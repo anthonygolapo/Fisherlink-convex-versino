@@ -32,20 +32,68 @@
         <div class="auth-modal-content">
             <img src="public/assets/logos/fisherlink.png" alt="FisherLink" class="auth-logo">
             <h2>FisherLink Access</h2>
-            <p class="auth-subtitle">Sign in as admin or user to continue.</p>
-            <div class="auth-field">
-                <label for="roleSelect">Role</label>
-                <select id="roleSelect">
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
-                </select>
+            <p class="auth-subtitle" id="authSubtitle">Choose how you want to continue.</p>
+            <div id="authChoicePanel" class="auth-choice-panel">
+                <button type="button" class="auth-login-btn" onclick="enterUserMode()">Continue as User</button>
+                <button type="button" class="auth-login-btn secondary" onclick="showAdminLogin()">Admin Login</button>
             </div>
-            <div class="auth-field">
-                <label for="rolePassword">Password</label>
-                <input type="password" id="rolePassword" placeholder="Enter password">
+            <div id="adminLoginPanel" class="auth-admin-panel" style="display: none;">
+                <div class="auth-field">
+                    <label for="adminUsername">Admin Name</label>
+                    <input type="text" id="adminUsername" placeholder="Enter admin name">
+                </div>
+                <div class="auth-field">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter password">
+                </div>
+                <div class="auth-action-row">
+                    <button type="button" class="auth-login-btn secondary" onclick="showAuthChoice()">Back</button>
+                    <button id="loginBtn" class="auth-login-btn" onclick="loginAsAdmin()">Login</button>
+                </div>
             </div>
-            <button id="loginBtn" class="auth-login-btn" onclick="loginWithRole()">Login</button>
             <p id="authError" class="auth-error"></p>
+        </div>
+    </div>
+
+    <div id="adminCredentialsModal" class="modal" style="display: none;">
+        <div class="modal-content auth-settings-modal-content">
+            <div class="close-div">
+                <div class="title-modal">
+                    <div class="title">Admin Credentials</div>
+                    <img src="public/assets/logos/logo-2.png" alt="logo" width="70" height="auto" class="logo">
+                </div>
+                <span class="close-modal" onclick="closeAdminCredentialsModal()">
+                    <img src="public/assets/icons/delete.png" alt="Close" width="24">
+                </span>
+            </div>
+            <div class="line"></div>
+            <div class="auth-settings-panel">
+                <div class="auth-field">
+                    <label for="currentAdminUsername">Current Admin Name</label>
+                    <input type="text" id="currentAdminUsername" readonly>
+                </div>
+                <div class="auth-field">
+                    <label for="currentAdminPassword">Current Password</label>
+                    <input type="password" id="currentAdminPassword" placeholder="Enter current password">
+                </div>
+                <div class="auth-field">
+                    <label for="newAdminUsername">New Admin Name</label>
+                    <input type="text" id="newAdminUsername" placeholder="Enter new admin name">
+                </div>
+                <div class="auth-field">
+                    <label for="newAdminPassword">New Password</label>
+                    <input type="password" id="newAdminPassword" placeholder="Enter new password">
+                </div>
+                <div class="auth-field">
+                    <label for="confirmAdminPassword">Confirm New Password</label>
+                    <input type="password" id="confirmAdminPassword" placeholder="Confirm new password">
+                </div>
+                <div class="auth-action-row">
+                    <button type="button" class="auth-login-btn secondary" onclick="closeAdminCredentialsModal()">Cancel</button>
+                    <button type="button" class="auth-login-btn" onclick="submitAdminCredentialsChange()">Save Changes</button>
+                </div>
+                <p id="adminCredentialsError" class="auth-error"></p>
+            </div>
         </div>
     </div>
 
@@ -125,6 +173,9 @@
                 
                 <button id="detailsBtn" onclick="openInformationModal(); fetchInformation();">
                     <img src="public/assets/icons/info.png" alt="File Icon"> Fishermen's Information
+                </button>
+                <button id="adminCredentialsBtn" onclick="openAdminCredentialsModal()" style="display: none;">
+                    <img src="public/assets/icons/details.png" alt="Admin Credentials Icon"> Change Admin Login
                 </button>
                 <button id="sidebarLogoutBtn" class="sidebar-logout-btn" onclick="logoutRole()" style="display: none;">
                     <img src="public/assets/icons/delete.png" alt="Logout Icon"> Log Out

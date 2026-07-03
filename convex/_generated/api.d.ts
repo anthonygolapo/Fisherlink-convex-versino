@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as auth from "../auth.js";
 import type * as history from "../history.js";
 import type * as importer from "../importer.js";
 import type * as information from "../information.js";
@@ -23,6 +24,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  auth: typeof auth;
   history: typeof history;
   importer: typeof importer;
   information: typeof information;

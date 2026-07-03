@@ -37,7 +37,19 @@ export default defineSchema(
       sos_status: v.optional(v.number()),
       help_status: v.optional(v.number()),
       not_found_status: v.optional(v.number())
-    }).index("by_callsign", ["callsign"])
+    }).index("by_callsign", ["callsign"]),
+    admin_credentials: defineTable({
+      key: v.string(),
+      username: v.string(),
+      password_hash: v.string(),
+      salt: v.string(),
+      updated_at: v.number()
+    }).index("by_key", ["key"]),
+    admin_sessions: defineTable({
+      token: v.string(),
+      credential_key: v.string(),
+      created_at: v.number()
+    }).index("by_token", ["token"])
   },
   {
     schemaValidation: false

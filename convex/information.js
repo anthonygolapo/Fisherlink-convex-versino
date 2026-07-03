@@ -1,5 +1,6 @@
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAdminSession } from "./auth";
 
 function normalizeCallsign(callsign) {
   return callsign.trim().toUpperCase();
@@ -55,9 +56,11 @@ export const create = mutation({
     phone_number: v.optional(v.string()),
     boat_color: v.optional(v.string()),
     engine_type: v.optional(v.string()),
-    boat_length: v.optional(v.number())
+    boat_length: v.optional(v.number()),
+    token: v.string()
   },
   handler: async (ctx, args) => {
+    await requireAdminSession(ctx, args.token);
     const normalizedCallsign = await ensureUniqueCallsign(ctx, args.callsign);
 
     await ctx.db.insert("information", {
@@ -88,9 +91,11 @@ export const update = mutation({
     phone_number: v.optional(v.string()),
     boat_color: v.optional(v.string()),
     engine_type: v.optional(v.string()),
-    boat_length: v.optional(v.number())
+    boat_length: v.optional(v.number()),
+    token: v.string()
   },
   handler: async (ctx, args) => {
+    await requireAdminSession(ctx, args.token);
     const existing = await ctx.db.get(args.docId);
     if (!existing) {
       throw new Error("Information record not found.");
@@ -115,9 +120,11 @@ export const update = mutation({
 
 export const remove = mutation({
   args: {
-    docId: v.id("information")
+    docId: v.id("information"),
+    token: v.string()
   },
   handler: async (ctx, args) => {
+    await requireAdminSession(ctx, args.token);
     const existing = await ctx.db.get(args.docId);
     if (!existing) {
       throw new Error("Information record not found.");

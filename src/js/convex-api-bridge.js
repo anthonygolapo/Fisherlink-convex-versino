@@ -9,6 +9,7 @@
   const api = convex.anyApi;
   const client = new ConvexClient(CONFIG.CONVEX_URL);
   let lastUpdateStamp = null;
+  const authConfig = (CONFIG && CONFIG.AUTH) || {};
 
   let currentOnMessage = null;
 
@@ -51,11 +52,43 @@
     return await client.mutation(functionName, args);
   }
 
+  function getAdminToken() {
+    return sessionStorage.getItem(authConfig.ADMIN_TOKEN_KEY || "fisherlink_admin_token") || "";
+  }
+
   async function handleRequest(raw) {
     const data = typeof raw === "string" ? JSON.parse(raw) : raw;
 
     try {
       switch (data.type) {
+        case "fetch_auth_mode":
+          dispatch(await runQuery(api.auth.getAuthMode, {}));
+          break;
+        case "verify_admin_session":
+          dispatch(await runQuery(api.auth.verifySession, { token: data.token }));
+          break;
+        case "admin_login":
+          dispatch(
+            await runMutation(api.auth.loginAdmin, {
+              username: data.username,
+              password: data.password
+            })
+          );
+          break;
+        case "admin_logout":
+          await runMutation(api.auth.logoutAdmin, { token: data.token || getAdminToken() });
+          dispatch({ type: "admin_logout", ok: true });
+          break;
+        case "change_admin_credentials":
+          dispatch(
+            await runMutation(api.auth.changeAdminCredentials, {
+              token: data.token || getAdminToken(),
+              current_password: data.current_password,
+              new_username: data.new_username,
+              new_password: data.new_password
+            })
+          );
+          break;
         case "search":
           dispatch(await runQuery(api.stations.getTrail, { sender: data.sender }));
           break;
@@ -63,17 +96,17 @@
           dispatch(await runQuery(api.information.list, {}));
           break;
         case "create_information":
-          await runMutation(api.information.create, data.record);
+          await runMutation(api.information.create, { ...data.record, token: getAdminToken() });
           dispatch(await runQuery(api.information.list, {}));
           dispatch(await runQuery(api.stations.getLatest, {}));
           break;
         case "update_information":
-          await runMutation(api.information.update, data.record);
+          await runMutation(api.information.update, { ...data.record, token: getAdminToken() });
           dispatch(await runQuery(api.information.list, {}));
           dispatch(await runQuery(api.stations.getLatest, {}));
           break;
         case "delete_information":
-          await runMutation(api.information.remove, { docId: data.docId });
+          await runMutation(api.information.remove, { docId: data.docId, token: getAdminToken() });
           dispatch(await runQuery(api.information.list, {}));
           dispatch(await runQuery(api.stations.getLatest, {}));
           break;
@@ -101,15 +134,15 @@
           );
           break;
         case "mark_safe":
-          await runMutation(api.stations.markSafe, { sender: data.sender });
+          await runMutation(api.stations.markSafe, { sender: data.sender, token: getAdminToken() });
           dispatch(await runQuery(api.stations.getLatest, {}));
           break;
         case "help_on_way":
-          await runMutation(api.stations.markHelpOnWay, { sender: data.sender });
+          await runMutation(api.stations.markHelpOnWay, { sender: data.sender, token: getAdminToken() });
           dispatch(await runQuery(api.stations.getLatest, {}));
           break;
         case "not_found":
-          await runMutation(api.stations.markNotFound, { sender: data.sender });
+          await runMutation(api.stations.markNotFound, { sender: data.sender, token: getAdminToken() });
           dispatch(await runQuery(api.stations.getLatest, {}));
           break;
         default:

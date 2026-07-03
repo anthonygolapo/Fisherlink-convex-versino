@@ -1,6 +1,8 @@
 (function() {
     const AppState = {
         currentRole: null,
+        adminToken: null,
+        adminUsername: null,
         map: null,
         boatIcons: {},
         markers: {},

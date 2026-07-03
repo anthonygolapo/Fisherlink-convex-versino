@@ -306,6 +306,7 @@
     }
 
     Object.assign(window, {
+        setInformationAdminUI,
         showAllInfo,
         fetchInformation,
         fetchHistoryByCallsign,

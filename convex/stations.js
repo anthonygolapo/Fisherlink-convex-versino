@@ -6,6 +6,7 @@ import {
   toStation,
   upsertLatestStation
 } from "./lib";
+import { requireAdminSession } from "./auth";
 
 async function latestPacketForSender(ctx, sender) {
   return await ctx.db
@@ -146,8 +147,9 @@ export const getTrail = query({
 });
 
 export const markSafe = mutation({
-  args: { sender: v.string() },
+  args: { sender: v.string(), token: v.string() },
   handler: async (ctx, args) => {
+    await requireAdminSession(ctx, args.token);
     const info = await infoForSender(ctx, args.sender);
     if (!info) {
       throw new Error(`Sender '${args.sender}' not found in information table.`);
@@ -186,8 +188,9 @@ export const markSafe = mutation({
 });
 
 export const markHelpOnWay = mutation({
-  args: { sender: v.string() },
+  args: { sender: v.string(), token: v.string() },
   handler: async (ctx, args) => {
+    await requireAdminSession(ctx, args.token);
     const info = await infoForSender(ctx, args.sender);
     if (!info) {
       throw new Error(`Sender '${args.sender}' not found in information table.`);
@@ -226,8 +229,9 @@ export const markHelpOnWay = mutation({
 });
 
 export const markNotFound = mutation({
-  args: { sender: v.string() },
+  args: { sender: v.string(), token: v.string() },
   handler: async (ctx, args) => {
+    await requireAdminSession(ctx, args.token);
     const info = await infoForSender(ctx, args.sender);
     if (!info) {
       throw new Error(`Sender '${args.sender}' not found in information table.`);

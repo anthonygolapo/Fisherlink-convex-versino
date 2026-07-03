@@ -126,6 +126,25 @@
     text-align: center;
 }
 
+.auth-choice-panel,
+.auth-admin-panel,
+.auth-settings-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.auth-settings-modal-content {
+    width: min(720px, 100%);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.auth-settings-panel {
+    padding: 24px 0 6px;
+}
+
 .auth-modal-content h2 {
     margin: 0 0 8px;
     font-size: clamp(28px, 4vw, 34px);
@@ -198,6 +217,19 @@
     color: #fff;
 }
 
+.auth-login-btn.secondary {
+    background: #44515c;
+}
+
+.auth-action-row {
+    display: flex;
+    gap: 10px;
+}
+
+.auth-action-row .auth-login-btn {
+    flex: 1 1 0;
+}
+
 .auth-error {
     min-height: 20px;
     margin: 12px 0 0;
@@ -250,6 +282,14 @@
     .auth-field select,
     .auth-login-btn {
         font-size: 16px;
+    }
+
+    .auth-action-row {
+        flex-direction: column;
+    }
+
+    .auth-settings-panel {
+        padding-top: 18px;
     }
 
     .auth-error {
