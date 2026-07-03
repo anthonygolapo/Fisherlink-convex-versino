@@ -4,6 +4,45 @@
     margin-top: 20px;
 }
 
+#safeReportModal .div-box {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+#safeReportModal .div-box-sub {
+    display: flex;
+    gap: 18px;
+}
+
+#safeReportModal .div-box-sub .search-input {
+    flex: 1 1 320px;
+    min-width: 220px;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+#safeReportModal .div-box-sub-SOS {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+}
+
+#safeReportModal .div-box-sub-SOS > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+#safeReportModal .div-box-sub-SOS .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 #safeReportModal .modal-content {
     display: flex;
     flex-direction: column;
@@ -232,33 +271,27 @@
         padding-top: 22px;
     }
 
-    #safeReportModal .search-filter-container {
-        flex-direction: column;
-        gap: 14px;
-        margin-top: 18px;
-    }
-
     #safeReportModal .scrollable-safe-report {
         flex: 1 1 auto;
         min-height: 0;
-        max-height: 46vh;
-        margin-top: 18px;
+        max-height: 50vh;
+        margin-top: 16px;
     }
 
     #safeReportModal .div-box {
         flex-direction: column;
         align-items: stretch;
         justify-content: flex-start;
-        gap: 14px;
+        gap: 10px;
         height: auto;
-        margin-top: 16px;
+        margin-top: 14px;
     }
 
     #safeReportModal .div-box-sub,
     #safeReportModal .div-box-sub-SOS {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
         width: 100%;
     }
 
@@ -270,7 +303,10 @@
         width: 100%;
         max-width: 100%;
         min-width: 0;
+        min-height: 44px;
         box-sizing: border-box;
+        padding-top: 2px;
+        padding-bottom: 2px;
     }
 
     #safeReportSearchInput {
@@ -292,11 +328,12 @@
     #safeReportModal .div-box-sub-SOS > div {
         flex-direction: column;
         align-items: stretch;
-        gap: 8px;
+        gap: 6px;
     }
 
     #safeReportModal .div-box-sub-SOS label {
         margin-bottom: 0;
+        font-size: 14px;
     }
 
     #safeReportModal .div-box-sub-SOS .filter-group {
@@ -305,8 +342,9 @@
         width: 100%;
         box-sizing: border-box;
         align-items: stretch;
-        gap: 8px;
-        padding: 8px 12px;
+        gap: 6px;
+        padding: 8px 10px;
+        border-radius: 12px;
     }
 
     #safeReportModal .yearInput,
@@ -314,10 +352,16 @@
         width: 100%;
         min-width: 0;
         box-sizing: border-box;
+        font-size: 14px;
+        padding: 0;
     }
 
     #safeReportModal .styled-table {
         min-width: 640px;
+    }
+
+    #safeReportModal .print-Btn {
+        margin-top: 14px;
     }
 }
 
